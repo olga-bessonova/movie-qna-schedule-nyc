@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Movie Q&A Schedule</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+<!-- Custom Styles -->
+<style>
+    body {
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 20px;
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    table.dataTable thead th {
+        background-color: #444;
+        color: #fff;
+    }
+    table.dataTable tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    .filters {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+    }
+    select, input {
+        padding: 6px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+</style>
+</head>
+<body>
+
+<h1>🎬 Movie Q&A Schedule</h1>
+
+<div class="filters">
+    <label>
+        Filter by Theater:
+        <select id="theaterFilter">
+            <option value="">All Theaters</option>
+        </select>
+    </label>
+    <label>
+        Filter by Date:
+        <input type="date" id="dateFilter">
+    </label>
+</div>
+
+<table id="moviesTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Theater</th>
+            <th>Date</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>RunTime</th>
+            <th>Rating</th>
+            <th>Image</th>
+            <th>Link</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<!-- jQuery + DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<!-- PapaParse for CSV -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<script>
+$(document).ready(function () {
+    const table = $('#moviesTable').DataTable();
+
+    // Load CSV
+    Papa.parse("amc_qna_shows.csv", {
+        download: true,
+        header: true,
+        complete: function(results) {
+            const data = results.data.filter(row => row.date && row.theater);
+            const theaters = new Set();
+
+            data.forEach(row => {
+                theaters.add(row.theater);
+                table.row.add([
+                    row.theater,
+                    row.date,
+                    row.title,
+                    row.description,
+                    row.runtime,
+                    row.rating,
+                    `<img src="${row.image_url}" style="max-height:100px">`,
+                    `<a href="${row.link}" target="_blank">View</a>`
+                ]);
+            });
+
+            // Populate theater filter dropdown
+            theaters.forEach(theater => {
+                $('#theaterFilter').append(`<option value="${theater}">${theater}</option>`);
+            });
+
+            table.draw();
+        }
+    });
+
+
+    // Theater filter
+    $('#theaterFilter').on('change', function() {
+        table.column(1).search(this.value).draw();
+    });
+
+    // Date filter
+    $('#dateFilter').on('change', function() {
+        const selectedDate = this.value;
+        table.column(0).search(selectedDate).draw();
+    });
+});
+</script>
+
+</body>
+</html>
