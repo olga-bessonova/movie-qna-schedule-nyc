@@ -7,19 +7,15 @@ import csv
 from selenium.webdriver.common.by import By
 from amc_qna_movie_list import amc_qna_movie_list
 from amc_qna_movie_data import amc_qna_movie_data
+from user_agents import USER_AGENTS
 from logger import get_logger
 
 logger = get_logger()
 
 def amc_qna_scrape():
-    user_agents = [
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15",
-    ]
-
     options = uc.ChromeOptions()
     options.headless = False
-    options.add_argument(f'user-agent={random.choice(user_agents)}')
+    options.add_argument(f'user-agent={random.choice(USER_AGENTS)}')
 
     driver = uc.Chrome(options=options)
 

@@ -3,17 +3,13 @@ import random
 import csv
 from bs4 import BeautifulSoup
 from logger import get_logger 
+from user_agents import USER_AGENTS
 
 logger = get_logger()
 
 def ifc_qna_scrape():
-    user_agents = [
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.6422.112 Safari/537.36",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15",
-    ]
-
     url = "https://www.ifccenter.com/?s=q%26a"
-    headers = {"User-Agent": random.choice(user_agents)}
+    headers = {"User-Agent": random.choice(USER_AGENTS)}
     try:
         response = requests.get(url, headers=headers)
         response.raise_for_status()
