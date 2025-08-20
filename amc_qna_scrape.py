@@ -44,7 +44,7 @@ def amc_qna_scrape():
             shows.append(amc_qna_movie_data(driver, film))
 
         # Save to CSV
-        with open("amc_qna_shows.csv", "w", newline="", encoding="utf-8") as f:
+        with open("movie-site/public/amc_qna_shows.csv", "w", newline="", encoding="utf-8") as f:
             fieldnames = [
                 "theater", "title", "link", "date", "description", 
                 "runtime", "rating", "ticket_link", "image_url"
