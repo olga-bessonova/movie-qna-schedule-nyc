@@ -60,7 +60,8 @@ export default function IFCMovieCard({ movie }) {
           className="h-50 w-full object-cover"
         />
         <div className="p-4 flex flex-col flex-grow justify-center text-center select-text">
-          <h2 className="text-lg font-bold text-gray-900">{movie.title}</h2>
+          <h2 className="text-lg font-bold text-gray-900 line-clamp-1" title={movie.title}>{movie.title}</h2>
+          {/* <h2 className="text-lg font-bold text-gray-900">{movie.title}</h2> */}
           <p className="text-sm text-gray-500 mt-1">
             {movie.runtime} 
           </p>
