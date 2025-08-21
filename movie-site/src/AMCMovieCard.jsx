@@ -16,7 +16,7 @@ export default function AMCMovieCard({ movie }) {
   useEffect(() => {
     if (titleRef.current) {
       const el = titleRef.current;
-      setIsOverflowing(el.scrollHeight > el.clientHeight + 1); 
+      setIsOverflowing(el.scrollHeight > el.clientHeight + 1);
     }
   }, [movie.title]);
 
@@ -30,22 +30,28 @@ export default function AMCMovieCard({ movie }) {
         />
 
         <div className="p-4 flex flex-col flex-grow justify-center text-center select-text">
-          {/* Clamped title */}
-          <h2
-            ref={titleRef}
-            className="text-lg font-bold text-gray-900 line-clamp-2"
-          >
-            {movie.title}
-          </h2>
+          <div className="relative overflow-hidden">
+            {/* Clamped Title */}
+            <h2
+              ref={titleRef}
+              className={`text-lg font-bold text-gray-900 line-clamp-2 transition-opacity duration-300 ${
+                isOverflowing ? "group-hover:opacity-0" : ""
+              }`}
+              title={movie.title}
+            >
+              {movie.title}
+            </h2>
 
-          {/* Expanding overlay (can overflow card) */}
-          {isOverflowing && (
-            <div className="absolute bottom-[80px] left-0 w-full px-4 opacity-0 group-hover:opacity-100 z-50 bg-white shadow-xl py-2 transition duration-300 overflow-visible">
-              <h2 className="text-lg font-bold text-gray-900 break-words whitespace-normal">
+            {/* Hover Overlay (only if overflowing) */}
+            {isOverflowing && (
+              <div className="absolute top-0 left-0 w-full bg-white p-2 
+                              text-sm font-semibold text-gray-900 
+                              max-h-[3.5rem] overflow-y-auto opacity-0 
+                              group-hover:opacity-100 transition-opacity duration-300 z-50 shadow-md">
                 {movie.title}
-              </h2>
-            </div>
-          )}
+              </div>
+            )}
+          </div>
 
           <p className="text-sm text-gray-500 mt-1">
             {movie.runtime} | {movie.rating}
