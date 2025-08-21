@@ -96,6 +96,7 @@ def paragraphs_all(soup: BeautifulSoup, url: str = ''):
     paragraphs = []
     for p in soup.find_all("p"):
         txt = p.get_text(" ", strip=True)
+        txt = clean_text(txt)
         if txt:
             paragraphs.append(txt)
     if not paragraphs:
@@ -182,6 +183,11 @@ def screenings_upcoming(paragraphs, dates, url):
         # Continue because the found year is current or upcoming
         return dates[-1] >= CURRENT_DATE.date()
 
+def clean_text(txt: str) -> str:
+    # Replace non-breaking spaces and other weird whitespace with normal space
+    txt = txt.replace('\xa0', ' ')
+    txt = re.sub(r'\s+', ' ', txt)  # collapse multiple spaces
+    return txt.strip()
 
 if __name__ == "__main__":
     

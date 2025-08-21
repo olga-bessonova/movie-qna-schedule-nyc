@@ -9,15 +9,25 @@ export default function App() {
   const [AMCmovies, setAMCmovies] = useState([]);
   const [IFCmovies, setIFCmovies] = useState([]);
 
-  const [sliderRef, instanceRef] = useKeenSlider({
-    // loop: true,
-    mode: "free", // keeps slide centered
-    slides: {
-      perView: 3,   // exactly 2 full card
-      spacing: 20,  // spacing so next card peeks
-    },
-    centered: true, // force center mode
+  const [amcSliderRef, amcInstanceRef] = useKeenSlider({
+    mode: "free",
+    slides: { perView: "auto", spacing: 20 },
+    centered: true,
   });
+  
+  const [ifcSliderRef, ifcInstanceRef] = useKeenSlider({
+    mode: "free",
+    slides: { perView: "auto", spacing: 20 },
+    centered: true,
+  });
+
+  useEffect(() => {
+    if (amcInstanceRef.current) amcInstanceRef.current.update();
+  }, [AMCmovies]);
+  
+  useEffect(() => {
+    if (ifcInstanceRef.current) ifcInstanceRef.current.update();
+  }, [IFCmovies]);
 
   useEffect(() => {
     Papa.parse("/amc_qna_shows.csv", {
@@ -39,36 +49,33 @@ export default function App() {
     });
   }, []);
 
-  useEffect(() => {
-    if (instanceRef.current) {
-      instanceRef.current.update();
-    }
-  }, [AMCmovies, IFCmovies, instanceRef]);
 
   return (
     <div>
 
-      <div className="min-h-screen bg-black text-white p-8 relative">
+      <div className="bg-black text-white p-8 relative">
         <h1 className="text-3xl font-bold text-center mb-10">
           🎬 AMC
         </h1>
 
         {/* Carousel AMC */}
-        <div ref={sliderRef} className="keen-slider max-w-5xl mx-auto">
-          {AMCmovies.map((movie, i) => (
-            <AMCMovieCard key={i} movie={movie} />
-          ))}
+        <div className="flex justify-center">
+          <div ref={amcSliderRef} className="keen-slider justify-center mx-auto">
+            {AMCmovies.map((movie, i) => (
+              <AMCMovieCard key={i} movie={movie} />
+            ))}
+          </div>
         </div>
 
         {/* Arrows */}
         <button
-          onClick={() => instanceRef.current?.prev()}
+          onClick={() => amcInstanceRef.current?.prev()}
           className="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800/70 text-white p-3 rounded-full hover:bg-gray-900 transition"
         >
           ◀
         </button>
         <button
-          onClick={() => instanceRef.current?.next()}
+          onClick={() => amcInstanceRef.current?.next()}
           className="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800/70 text-white p-3 rounded-full hover:bg-gray-900 transition"
         >
           ▶
@@ -76,27 +83,30 @@ export default function App() {
       </div>
 
 
-  <div className="min-h-screen bg-black text-white p-8 relative">
+      <div className="bg-black text-white p-8 relative">
         <h1 className="text-3xl font-bold text-center mb-10">
           🎬 IFC
         </h1>
 
         {/* Carousel IFC */}
-        <div ref={sliderRef} className="keen-slider max-w-5xl mx-auto">
-          {IFCmovies.map((movie, i) => (
-            <IFCMovieCard key={i} movie={movie} />
-          ))}
+        <div className="flex justify-center"> 
+          <div ref={ifcSliderRef} className="keen-slider justify-center mx-auto">
+            {IFCmovies.map((movie, i) => (
+              <IFCMovieCard key={i} movie={movie} />
+            ))}
+          </div>
+
         </div>
 
         {/* Arrows */}
         <button
-          onClick={() => instanceRef.current?.prev()}
+          onClick={() => ifcInstanceRef.current?.prev()}
           className="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800/70 text-white p-3 rounded-full hover:bg-gray-900 transition"
         >
           ◀
         </button>
         <button
-          onClick={() => instanceRef.current?.next()}
+          onClick={() => ifcInstanceRef.current?.next()}
           className="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800/70 text-white p-3 rounded-full hover:bg-gray-900 transition"
         >
           ▶
