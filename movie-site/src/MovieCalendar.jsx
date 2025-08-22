@@ -2,14 +2,23 @@ import React, { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import CustomToolbar from './CustomToolbar'
 
 const localizer = momentLocalizer(moment);
 
 export default function MovieCalendar({ movies }) {
   const [date, setDate] = useState(new Date());
   const [view, setView] = useState("month");
+  const [selectedTheater, setSelectedTheater] = useState('All')
 
-  const events = (movies || [])
+  const filteredMovies = 
+    selectedTheater === "All"
+    ? movies
+    : movies.filter((m) => m.theater === selectedTheater)
+  
+  console.log("Theater:", selectedTheater)
+
+  const events = (filteredMovies || [])
   .map((movie) => {
     const start = movie.start || movie.date;
     if (!start) return null;
@@ -23,6 +32,7 @@ export default function MovieCalendar({ movies }) {
       start: startDate,
       end: endDate,
       allDay: true,
+      theater: movie.theater
     };
   })
   .filter(Boolean);
@@ -57,6 +67,21 @@ export default function MovieCalendar({ movies }) {
               moment(date).format("MMMM D, YYYY (dddd)"),
             agendaTimeFormat: () => "",
           }}
+          components={{
+            toolbar: (props) => (
+              <CustomToolbar
+                {...props}
+                setSelectedTheater={setSelectedTheater}
+                selectedTheater={selectedTheater}
+              />
+            ),
+          }}
+          onSelectEvent={(event) => {
+            const el = document.getElementById(`movie-${event.title.replace(/\s+/g, "-")}`);
+            if (el) {
+              el.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+          }}
         />
       </div>
 
@@ -76,7 +101,6 @@ export default function MovieCalendar({ movies }) {
           background: #ef4444; 
           border-radius: 0.5rem;
           padding: 0.25rem 0.75rem;
-          color: white;
           font-weight: 500;
           margin: 0 0.25rem;
           transition: background 0.2s;
@@ -87,16 +111,12 @@ export default function MovieCalendar({ movies }) {
         }
 
         .rbc-toolbar button:active,
-        .rbc-toolbar button:focus {
-          background:rgb(246, 9, 9) !important; /* red-600 */
+         {
+          // background:rgb(255, 239, 14) !important; /* red-600 */
           color:rgb(0, 0, 0) !important;
           font-weight: 800;
           outline: none !important;
           box-shadow: none !important;
-        }
-
-        .rbc-today {
-          background-color:rgb(244, 87, 87) !important; 
         }
         
         .rbc-off-range-bg {
@@ -115,7 +135,7 @@ export default function MovieCalendar({ movies }) {
         }
         
         .rbc-day-bg {
-          background-color: #fff !important; /* white background */
+          background-color:rgb(233, 192, 192) !important; 
         }
         
         .rbc-month-row {
@@ -132,6 +152,10 @@ export default function MovieCalendar({ movies }) {
         
         .rbc-agenda-row {
           min-height: 300px; /* give room to display events */
+        }
+
+        .rbc-today {
+          background-color:rgb(234, 166, 166) !important; 
         }
       `}</style>
     </div>

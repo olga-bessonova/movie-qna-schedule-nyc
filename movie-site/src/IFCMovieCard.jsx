@@ -52,7 +52,9 @@ export default function IFCMovieCard({ movie }) {
   const paragraphs_qna = parseParagraphs(movie.paragraphs_qna);
 
   return (
-    <div className="keen-slider__slide flex justify-center min-w-[250px] max-w-[500px]">
+    <div
+      id={`movie-${movie.title.replace(/\s+/g, "-")}`}
+      className="keen-slider__slide flex justify-center min-w-[550px] max-w-[500px]">
       <div className="w-[800px] bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col max-h-120">
         <img
           src={movie.image_url}
