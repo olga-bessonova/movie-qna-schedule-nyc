@@ -25,57 +25,75 @@ def get_earliest_date(date_str):
     return min(parsed).strftime("%Y-%m-%d")
 
 
-def ifc_qna_scrape():
-    url = "https://www.ifccenter.com/?s=q%26a"
+def scrape_page(page_num):
+    url = f"https://www.ifccenter.com/page/{page_num}/?s=q%26a"
     headers = {"User-Agent": random.choice(USER_AGENTS)}
-    try:
-        response = requests.get(url, headers=headers)
-        response.raise_for_status()
-        logger.info(f"Successfully fetched {url} status {response.status_code}")
-        soup = BeautifulSoup(response.text, "html.parser")
-        posts = soup.select("div.post")
 
-        movies = []
-        for post in posts:
-            a_tag = post.find("a")
-            title = a_tag.get_text(strip = True) if a_tag else "NOT FOUND"
-            link = a_tag["href"] if a_tag else "NOT FOUND"
-            description = post.find("p").get_text(strip=True) if post.find("p") else "NOT FOUND"
-            movie_data = ifc_qna_movie_data(link)
+    response = requests.get(url, headers=headers)
+    response.raise_for_status()
+    logger.info(f"Successfully fetched {url} status {response.status_code}")
 
-            if movie_data:
-                movies.append({
-                    "theater": "IFC Center",
-                    "title": title,
-                    "link": link,
-                    "date": movie_data.get("dates", ""),
-                    "description": description,
-                    "runtime": movie_data.get("runtime", ""),
-                    "rating": "",
-                    "ticket_link": "",
-                    "image_url": movie_data.get("image_url", ""),
-                    "paragraphs_qna": movie_data.get("paragraphs_qna", []),
-                })
-            else:
-                logger.info(f"Skipping movie because it has no upcoming Q&A {url}")
-                continue
-        if movies:
-            movies.sort(key=lambda m: get_earliest_date(m["date"]))
-            with open("movie-site/public/ifc_qna_shows.csv", "w", newline="", encoding="utf-8") as f:
-                writer = csv.DictWriter(f, fieldnames=movies[0].keys())
-                writer.writeheader()
-                writer.writerows(movies)
-            
-            logger.info(f"Saved {len(movies)} IFC Q&A movies to ifc_qna_shows.csv")
+    soup = BeautifulSoup(response.text, "html.parser")
+    posts = soup.select("div.post")
+    if not posts:
+        logger.info(f"No posts found on {url}, stopping.")
+        return []
+
+    movies = []
+    for post in posts:
+        a_tag = post.find("a")
+        title = a_tag.get_text(strip=True) if a_tag else "NOT FOUND"
+        link = a_tag["href"] if a_tag else "NOT FOUND"
+        description = post.find("p").get_text(strip=True) if post.find("p") else "NOT FOUND"
+
+        movie_data = ifc_qna_movie_data(link)
+        if movie_data:
+            movies.append({
+                "theater": "IFC Center",
+                "title": title,
+                "link": link,
+                "date": movie_data.get("dates", ""),
+                "description": description,
+                "runtime": movie_data.get("runtime", ""),
+                "rating": "",
+                "ticket_link": "",
+                "image_url": movie_data.get("image_url", ""),
+                "paragraphs_qna": movie_data.get("paragraphs_qna", []),
+            })
         else:
-            logger.info("No upcoming Q&A movies found, skipping CSV write")
+            logger.info(f"Skipping movie because it has no upcoming Q&A {link}")
+
+    return movies
 
 
-    except requests.exceptions.HTTPError as e:
-        logger.error(f"HTTP error {e.response.status_code} for {url}")
-    except requests.exceptions.RequestException as e:
-        logger.error(f"Request failed for {url}: {e}")
+def ifc_qna_scrape():
+    all_movies = []
+    for page in range(1, 11):  # go through pages 1–10
+        try:
+            page_movies = scrape_page(page)
+            if not page_movies:
+                break  # stop if no more results
+            all_movies.extend(page_movies)
+        except requests.exceptions.HTTPError as e:
+            logger.error(f"HTTP error {e.response.status_code} on page {page}")
+            break
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Request failed on page {page}: {e}")
+            break
+
+    if all_movies:
+        # sort by earliest date
+        all_movies.sort(key=lambda m: get_earliest_date(m["date"]))
+
+        with open("movie-site/public/ifc_qna_shows.csv", "w", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=all_movies[0].keys())
+            writer.writeheader()
+            writer.writerows(all_movies)
+        
+        logger.info(f"Saved {len(all_movies)} IFC Q&A movies to ifc_qna_shows.csv")
+    else:
+        logger.info("No upcoming Q&A movies found, skipping CSV write")
+
 
 if __name__ == "__main__":
     ifc_qna_scrape()
-
