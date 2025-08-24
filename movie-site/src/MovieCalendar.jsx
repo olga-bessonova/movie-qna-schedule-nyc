@@ -25,7 +25,8 @@ export default function MovieCalendar({ movies }) {
 
     const startDate = moment(start, "YYYY-MM-DD").toDate();
     // add +1 day so it shows in month view
-    const endDate = moment(startDate).add(1, "days").toDate();
+    const endDate = startDate
+    // const endDate = moment(startDate).add(1, "days").toDate();
 
     return {
       title: movie.title || "Untitled",
@@ -47,7 +48,7 @@ export default function MovieCalendar({ movies }) {
       </h2>
 
       <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm"
-        style={{ height: view === "agenda" ? "200px" : "auto" }}
+        style={{ height: view === "agenda" ? "300px" : "auto" }}
       >
         <Calendar
           localizer={localizer}
@@ -63,7 +64,7 @@ export default function MovieCalendar({ movies }) {
           defaultView="month"
           className="rbc-custom-calendar"
           formats={{
-            agendaDateFormat: (date, culture, localizer) =>
+            agendaDateFormat: (date) =>
               moment(date).format("MMMM D, YYYY (dddd)"),
             agendaTimeFormat: () => "",
           }}

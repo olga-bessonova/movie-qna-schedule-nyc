@@ -1,12 +1,29 @@
 import requests
 import random
 import csv
+from datetime import datetime
 from bs4 import BeautifulSoup
 from logger import get_logger 
 from user_agents import USER_AGENTS
 from ifc_qna_movie_data import ifc_qna_movie_data
 
 logger = get_logger()
+
+def get_earliest_date(date_str):
+    if not date_str:
+        return "9999-12-31"  
+
+    parts = [d.strip() for d in date_str.split(",") if d.strip()]
+    parsed = []
+    for p in parts:
+        try:
+            parsed.append(datetime.strptime(p, "%Y-%m-%d"))
+        except ValueError:
+            continue
+    if not parsed:
+        return "9999-12-31"
+    return min(parsed).strftime("%Y-%m-%d")
+
 
 def ifc_qna_scrape():
     url = "https://www.ifccenter.com/?s=q%26a"
@@ -43,6 +60,7 @@ def ifc_qna_scrape():
                 logger.info(f"Skipping movie because it has no upcoming Q&A {url}")
                 continue
         if movies:
+            movies.sort(key=lambda m: get_earliest_date(m["date"]))
             with open("movie-site/public/ifc_qna_shows.csv", "w", newline="", encoding="utf-8") as f:
                 writer = csv.DictWriter(f, fieldnames=movies[0].keys())
                 writer.writeheader()

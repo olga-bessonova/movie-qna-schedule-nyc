@@ -4,13 +4,30 @@ import json
 import time
 import os
 import csv
-from selenium.webdriver.common.by import By
+from datetime import datetime
 from amc_qna_movie_list import amc_qna_movie_list
 from amc_qna_movie_data import amc_qna_movie_data
 from user_agents import USER_AGENTS
 from logger import get_logger
 
 logger = get_logger()
+
+def normalize_date(date_str):
+    formats = [
+        "%d-%b-%y",     # 10-Sep-25
+        "%B %d, %Y",    # September 10, 2025
+        "%b %d, %Y",    # Sep 10, 2025
+        "%Y-%m-%d"      # already normalized
+    ]
+    for fmt in formats:
+        try:
+            dt = datetime.strptime(date_str.strip(), fmt)
+            return dt.strftime("%Y-%m-%d")  # normalize
+        except ValueError:
+            continue
+    logger.warning(f"Date {date_str} is not matching known formats")
+    return date_str
+
 
 def amc_qna_scrape():
     options = uc.ChromeOptions()
@@ -41,7 +58,14 @@ def amc_qna_scrape():
 
         shows = []
         for film in film_links:
-            shows.append(amc_qna_movie_data(driver, film))
+            show = amc_qna_movie_data(driver, film)
+            if "date" in show and show["date"]:
+                show["date"] = normalize_date(show["date"])  # normalize date here
+            shows.append(show)
+        
+        # Sort movies by normalized date
+        shows.sort(key=lambda x: x.get("date", "9999-12-31")) # "9999-12-31" ensures movies with missing/invalid dates go to the end
+
 
         # Save to CSV
         with open("movie-site/public/amc_qna_shows.csv", "w", newline="", encoding="utf-8") as f:

@@ -6,70 +6,6 @@ import AMCMovieCard from "./AMCMovieCard"
 import IFCMovieCard from "./IFCMovieCard"
 import MovieCalendar from "./MovieCalendar";
 
-// Example movies array
-const movies = [
-  {
-    title: "Relay Q&A with Director David Mackenzie",
-    start: "2025-08-23",
-    end: "2025-08-23",
-    image_url: "https://example.com/image.jpg",
-    runtime: "2 HR 22 MIN",
-    rating: "R",
-    link: "#",
-    theater: "IFC"
-  },
-  {
-    title: "Copy Relay Q&A with Director David Mackenzie",
-    start: "2025-08-23",
-    end: "2025-08-23",
-    image_url: "https://example.com/image.jpg",
-    runtime: "2 HR 22 MIN",
-    rating: "R",
-    link: "#",
-    theater: "IFC"
-  },
-  {
-    title: "Copy 2 Relay Q&A with Director David Mackenzie",
-    start: "2025-08-23",
-    end: "2025-08-23",
-    image_url: "https://example.com/image.jpg",
-    runtime: "2 HR 22 MIN",
-    rating: "R",
-    link: "#",
-    theater: "AMC"
-
-  },
-  {
-    title: "Almost Popular – Special Q&A",
-    start: "2025-08-28",
-    end: "2025-08-28",
-    image_url: "https://example.com/image2.jpg",
-    runtime: "2 HR 5 MIN",
-    rating: "NR",
-    link: "#",
-    theater: "AMC"
-  },
-  {
-    title: "No No NO",
-    start: "2025-09-15",
-    end: "2025-09-15",
-    image_url: "https://example.com/image2.jpg",
-    runtime: "2 HR 5 MIN",
-    rating: "NR",
-    link: "#",
-    theater: "IFC"
-  },
-  {
-    title: "Movie Movie Movie",
-    date: "2025-09-21",
-    image_url: "https://example.com/image2.jpg",
-    runtime: "2 HR 5 MIN",
-    rating: "NR",
-    link: "#",
-    theater: "AMC"
-  },
-];
-
 export default function App() {
   const [AMCmovies, setAMCmovies] = useState([]);
   const [IFCmovies, setIFCmovies] = useState([]);
@@ -113,33 +49,6 @@ export default function App() {
       },
     });
   }, []);
-
-  const allMovies = [...AMCmovies, ...IFCmovies];
-
-  const centerSlide = (slider, index) => {
-    const track = slider.track.details;
-    if (!track) return;
-  
-    // Slide details
-    const slide = track.slides[index];
-    const viewportWidth = track.width;
-  
-    // Slide center position relative to track
-    const slideCenter = slide.left + slide.size / 2;
-  
-    // Target scroll so that this center is in middle of viewport
-    const target = slideCenter - viewportWidth / 2;
-  
-    slider.moveToIdx(index, true, { align: "center"
-      // absolute: true,
-    });
-  
-    // force scroll alignment
-    slider.container.scrollTo({
-      left: target,
-      behavior: "smooth",
-    });
-  };
   
   const handleEventSelect = (event) => {
     if (event.theater === "AMC") {
@@ -165,11 +74,27 @@ export default function App() {
     }
   };
   
+  const allMovies = [...AMCmovies, ...IFCmovies];
+
+  // Expand movies with multiple dates into separate events
+  const calendarEvents = allMovies.flatMap((movie) => {
+    if (!movie.date) return [];
+
+    const dates = movie.date.split(",").map((d) => d.trim());
+
+    return dates.map((d) => ({
+      title: movie.title,
+      theater: movie.theater,
+      start: new Date(d), 
+      end: new Date(d),
+      allDay: true,
+    }));
+  });
   
 
   return (
     <div>
-      <MovieCalendar movies={allMovies} onEventSelect={handleEventSelect} />
+      <MovieCalendar movies={calendarEvents} onEventSelect={handleEventSelect} />
 
       <div className="bg-black text-white p-8 relative">
         <h1 className="text-3xl font-bold text-center mb-10">
