@@ -76,20 +76,44 @@ export default function App() {
   
   const allMovies = [...AMCmovies, ...IFCmovies];
 
+  function makeEasternDate(year, month, day, hour = 18, minute = 0) {
+    // Construct a date in UTC first
+    // +4 because EDT (summer) is UTC-4 → 6pm ET = 22:00 UTC
+    // +5 for winter time, however it's not being implemenetd to keep the code simple
+    // because the time is not shown on the calendar
+    const utcDate = new Date(Date.UTC(year, month - 1, day, hour + 4, minute, 0));
+  
+    // Convert it to America/New_York time
+    const eastern = new Date(
+      utcDate.toLocaleString("en-US", { timeZone: "America/New_York" })
+    );
+    return eastern;
+  }
+  
+
   // Expand movies with multiple dates into separate events
-  const calendarEvents = allMovies.flatMap((movie) => {
-    if (!movie.date) return [];
+const calendarEvents = allMovies.flatMap((movie) => {
+  if (!movie.date) return [];
 
-    const dates = movie.date.split(",").map((d) => d.trim());
+  const dates = movie.date.split(",").map((d) => d.trim());
 
-    return dates.map((d) => ({
+  return dates.map((d) => {
+    const [year, month, day] = d.split("-").map(Number);
+
+    // set to 7pm EST (UTC) instead of midnight, so that conversion from UTC to GMT would'nt mess movie dates
+    const startDate = makeEasternDate(year, month, day, 18, 0); // 6pm ET
+    const endDate   = new Date(startDate.getTime() + 24 * 60 * 60 * 1000);
+
+    return {
       title: movie.title,
       theater: movie.theater,
-      start: new Date(d), 
-      end: new Date(d),
+      start: startDate,
+      end: endDate,
       allDay: true,
-    }));
+    };
   });
+});
+
   
 
   return (
