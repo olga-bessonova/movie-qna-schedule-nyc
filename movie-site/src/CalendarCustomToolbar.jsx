@@ -1,4 +1,4 @@
-export default function CustomToolbar({ label, onNavigate, onView, view, setSelectedTheater, selectedTheater }) {
+export default function CalendarCustomToolbar({ label, onNavigate, onView, view, setSelectedTheater, selectedTheater }) {
   return (
     <div className="rbc-toolbar flex justify-between items-center bg-gray-50 p-2 rounded-lg shadow-sm">
       
@@ -62,7 +62,7 @@ export default function CustomToolbar({ label, onNavigate, onView, view, setSele
         >
           <option value="All">All Theaters</option>
           <option value="AMC">AMC</option>
-          <option value="IFC">IFC</option>
+          <option value="IFC Center">IFC Center</option>
         </select>
       </div>
 

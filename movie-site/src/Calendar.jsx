@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import CustomToolbar from './CustomToolbar'
+import CalendarCustomToolbar from './CalendarCustomToolbar'
 
 const localizer = momentLocalizer(moment);
 
@@ -24,9 +24,7 @@ export default function MovieCalendar({ movies }) {
     if (!start) return null;
 
     const startDate = moment(start, "YYYY-MM-DD").toDate();
-    // add +1 day so it shows in month view
     const endDate = startDate
-    // const endDate = moment(startDate).add(1, "days").toDate();
 
     return {
       title: movie.title || "Untitled",
@@ -70,7 +68,7 @@ export default function MovieCalendar({ movies }) {
           }}
           components={{
             toolbar: (props) => (
-              <CustomToolbar
+              <CalendarCustomToolbar
                 {...props}
                 setSelectedTheater={setSelectedTheater}
                 selectedTheater={selectedTheater}
