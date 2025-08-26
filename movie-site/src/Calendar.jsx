@@ -1,10 +1,11 @@
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import React, { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import CalendarCustomToolbar from './CalendarCustomToolbar'
 
-const localizer = momentLocalizer(moment);
+const localizer = momentLocalizer(moment)
 
 export default function MovieCalendar({ movies }) {
   const [date, setDate] = useState(new Date());
@@ -65,6 +66,12 @@ export default function MovieCalendar({ movies }) {
             agendaDateFormat: (date) =>
               moment(date).format("MMMM D, YYYY (dddd)"),
             agendaTimeFormat: () => "",
+          }}
+          messages={{
+            noEventsInRange: 
+              date < new Date()
+              ? "That’s history! We only track upcoming Q&A movies, so check what’s next."
+              : "No Q&A movies scheduled for these dates — check back soon!",
           }}
           components={{
             toolbar: (props) => (
@@ -156,6 +163,18 @@ export default function MovieCalendar({ movies }) {
         .rbc-today {
           background-color:rgb(234, 166, 166) !important; 
         }
+
+        .rbc-agenda-empty,
+.rbc-month-view .rbc-row .rbc-row-content:only-child {
+  color:rgb(233, 139, 8); /* red-700 */
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  padding: 1rem;
+  background-color: #fef2f2; /* red-50 */
+  border-radius: 0.5rem;
+}
+
       `}</style>
     </div>
   );
