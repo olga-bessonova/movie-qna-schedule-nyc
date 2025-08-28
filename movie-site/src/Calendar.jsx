@@ -1,4 +1,3 @@
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import React, { useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -6,6 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import CalendarCustomToolbar from './CalendarCustomToolbar'
 
 const localizer = momentLocalizer(moment)
+
 
 export default function MovieCalendar({ movies }) {
   const [date, setDate] = useState(new Date());
@@ -17,8 +17,6 @@ export default function MovieCalendar({ movies }) {
     ? movies
     : movies.filter((m) => m.theater === selectedTheater)
   
-  console.log("Theater:", selectedTheater)
-
   const events = (filteredMovies || [])
   .map((movie) => {
     const start = movie.start || movie.date;
@@ -37,7 +35,25 @@ export default function MovieCalendar({ movies }) {
   })
   .filter(Boolean);
 
-  console.log("Events:", events);
+  function getClosestEventMonth(events, fromDate, future = true) {
+    if (!events || events.length === 0) return null;
+  
+    // sort by start date
+    const sorted = [...events].sort((a, b) => a.start - b.start);
+  
+    if (future) {
+      // next event after fromDate
+      const next = sorted.find(e => e.start > fromDate);
+      if (!next) return null;
+      return moment(next.start).startOf("month").toDate();
+    } else {
+      // previous event before fromDate
+      const prev = [...sorted].reverse().find(e => e.start < fromDate);
+      if (!prev) return null;
+      return moment(prev.start).startOf("month").toDate();
+    }
+  }
+  
 
 
   return (
@@ -57,22 +73,59 @@ export default function MovieCalendar({ movies }) {
           date={date}
           onNavigate={(newDate) => setDate(newDate)}
           view={view}
-          onView={(newView) => setView(newView)}
-          views={["month", "agenda"]}
-          // views={["agenda"]}
+          // onView={(newView) => setView(newView)}
+          onView={(newView) => {
+            setView(newView);
+            if (newView === "agenda") {
+              setDate(moment(date).startOf("month").toDate());
+            }
+          }}
           defaultView="month"
+          views={["month", "agenda"]}
+        
           className="rbc-custom-calendar"
           formats={{
             agendaDateFormat: (date) =>
               moment(date).format("MMMM D, YYYY (dddd)"),
             agendaTimeFormat: () => "",
           }}
+
           messages={{
-            noEventsInRange: 
-              date < new Date()
-              ? "That’s history! We only track upcoming Q&A movies, so check what’s next."
-              : "No Q&A movies scheduled for these dates — check back soon!",
+            noEventsInRange:
+              date < new Date() ? (
+                <div className="flex flex-col items-center space-y-2">
+                  <p>That’s history! We only track upcoming Q&amp;A movies.</p>
+                  <button
+                    onClick={() => {
+                      const closestMonth = getClosestEventMonth(events, date, true)
+                      if (closestMonth) {
+                        setDate(closestMonth)
+                      }
+                    }}
+                    className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+                  >
+                    See What's Next ▶
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center space-y-2">
+                  <p>No Q&amp;A movies scheduled for these dates yet — check back soon!</p>
+                  <button
+                    onClick={() => {
+                      const closestMonth = getClosestEventMonth(events, date, false)
+                      if (closestMonth) {
+                        setDate(closestMonth)
+                      }
+                    }}
+                    className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
+                  >
+                    Check Previous Month
+                  </button>
+
+                </div>
+              ),
           }}
+          
           components={{
             toolbar: (props) => (
               <CalendarCustomToolbar
@@ -81,6 +134,22 @@ export default function MovieCalendar({ movies }) {
                 selectedTheater={selectedTheater}
               />
             ),
+          }}
+          eventPropGetter={(event) => {
+            let style = {
+              backgroundColor: "#dc2626", // AMC red by default
+              color: "white",
+              borderRadius: "0.375rem",
+              border: "2px solid black",
+              fontWeight: 600,
+              padding: "4px 6px",
+            };
+        
+            if (event.theater === "IFC Center") {
+              style.backgroundColor = "#16a34a"; // green-600
+            }
+        
+            return { style };
           }}
           onSelectEvent={(event) => {
             const el = document.getElementById(`movie-${event.title.replace(/\s+/g, "-")}`);
@@ -130,14 +199,12 @@ export default function MovieCalendar({ movies }) {
         }
 
         .rbc-event {
-          background: #dc2626 !important; /* red-600 */
-          color: white !important;
-          border: 2px solid black !important;
+          color: white;
+          border: 2px solid black;
           border-radius: 0.375rem;
           padding: 4px 6px;
           font-size: 0.875rem;
           font-weight: 600;
-          z-index: 999 !important;
         }
         
         .rbc-day-bg {
@@ -165,15 +232,25 @@ export default function MovieCalendar({ movies }) {
         }
 
         .rbc-agenda-empty,
-.rbc-month-view .rbc-row .rbc-row-content:only-child {
-  color:rgb(233, 139, 8); /* red-700 */
-  font-weight: 600;
-  font-size: 1rem;
-  text-align: center;
-  padding: 1rem;
-  background-color: #fef2f2; /* red-50 */
-  border-radius: 0.5rem;
-}
+        .rbc-month-view .rbc-row .rbc-row-content:only-child {
+          color:rgb(233, 139, 8); /* red-700 */
+          font-weight: 600;
+          font-size: 1rem;
+          text-align: center;
+          padding: 1rem;
+          background-color: #fef2f2; /* red-50 */
+          border-radius: 0.5rem;
+        }
+
+        .rbc-agenda-date-cell {
+          background-color: white !important;
+          color: black !important;
+        }
+
+        .rbc-agenda-event-cell {
+          background-color: inherit !important;
+          color: inherit !important;
+        }
 
       `}</style>
     </div>

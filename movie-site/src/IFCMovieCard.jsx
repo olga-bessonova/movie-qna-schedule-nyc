@@ -103,7 +103,6 @@ export default function IFCMovieCard({ movie }) {
 
           {/* Multiple dates */}
           {Object.entries(grouped).map(([monthYear, days], i) => {
-            console.log("debug:", monthYear, days); // side effect
             return (
               <p key={i}>
                 {monthYear} {days.join(", ")}
