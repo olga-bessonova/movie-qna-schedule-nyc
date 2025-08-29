@@ -39,7 +39,7 @@ export default function PosterBackground() {
               key={`${rowIndex}-${i}`}
               src={poster}
               alt="poster"
-              className="h-40 w-auto object-cover mx-1 opacity-60 rounded"
+              className="h-40 w-auto object-cover mx-1 opacity-40 rounded"
             />
           ))}
         </div>

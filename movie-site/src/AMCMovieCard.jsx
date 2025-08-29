@@ -23,7 +23,7 @@ export default function AMCMovieCard({ movie }) {
   return (
     <div 
       id={`movie-${movie.title.replace(/\s+/g, "-")}`}
-      className="keen-slider__slide flex justify-center min-w-[550px] max-w-[500px]">
+      className="keen-slider__slide flex justify-center min-w-[550px] max-w-[500px] rounded-2xl">
 
       <div className="w-[800px] bg-white rounded-2xl shadow-lg relative group overflow-visible flex flex-col max-h-120">
         <img
