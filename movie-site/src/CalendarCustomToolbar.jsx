@@ -1,6 +1,6 @@
 export default function CalendarCustomToolbar({ label, onNavigate, onView, view, setSelectedTheater, selectedTheater }) {
   return (
-    <div className="rbc-toolbar flex justify-between items-center bg-gray-50 p-2 rounded-lg shadow-sm">
+    <div className="rbc-toolbar flex justify-between items-center bg-black p-2 rounded-lg shadow-sm">
       
       {/* Left: Navigation */}
       <div className="flex items-center space-x-2">
@@ -13,7 +13,7 @@ export default function CalendarCustomToolbar({ label, onNavigate, onView, view,
 
         <button
           onClick={() => onNavigate("TODAY")}
-          className="px-4 py-1 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 transition"
+          className="px-4 py-1 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 transition focus:outline-none focus:ring-0"
         >
           Today
         </button>

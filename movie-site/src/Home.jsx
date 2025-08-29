@@ -5,6 +5,8 @@ import "keen-slider/keen-slider.min.css";
 import AMCMovieCard from "./AMCMovieCard"
 import IFCMovieCard from "./IFCMovieCard"
 import MovieCalendar from "./Calendar";
+import PosterBackground from "./PosterBackground";
+
 
 export default function Home() {
   const [AMCmovies, setAMCmovies] = useState([]);
@@ -108,8 +110,15 @@ export default function Home() {
   });
   
   return (
-    <div>
-      <MovieCalendar movies={calendarEvents} onEventSelect={handleEventSelect} />
+    <div className="bg-black">
+      <div className="relative w-full h-full">
+        <PosterBackground />
+
+        <div className="relative z-10">
+            <MovieCalendar movies={calendarEvents} onEventSelect={handleEventSelect} />
+        </div>
+      </div>
+
 
       <div className="bg-black text-white p-8 relative">
         <h1 className="text-3xl font-bold text-center mb-10">
@@ -171,7 +180,7 @@ export default function Home() {
         </button>
       </div>
 
-      <footer className="text-center text-gray-900 text-sm py-4 flex flex-col items-center space-y-2">
+      <footer className="text-center text-white text-sm py-4 flex flex-col items-center space-y-2">
         <p>
           © 2025 Q&A Movies Calendar in New York City — Developed by <span className="font-bold">Olga Bessonova</span>
         </p>

@@ -57,14 +57,17 @@ export default function MovieCalendar({ movies }) {
 
 
   return (
-    <div className="w-full h-full max-w-5xl mx-auto bg-white rounded-2xl shadow-lg p-4">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+    <div className="w-full h-full max-w-5xl mx-auto bg-black rounded-2xl shadow-lg p-4">
+     {/* <div className="w-full h-full bg-black rounded-2xl p-4">  */}
+      <h2 className="text-2xl font-bold text-white mb-4 text-center">
         🎬 Q&A Movie Calendar
       </h2>
 
-      <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm"
+      {/* <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm" */}
+      <div className="rounded-xl overflow-hidden"
         style={{ height: view === "agenda" ? "300px" : "auto" }}
       >
+        
         <Calendar
           localizer={localizer}
           events={events}
@@ -93,7 +96,7 @@ export default function MovieCalendar({ movies }) {
           messages={{
             noEventsInRange:
               date < new Date() ? (
-                <div className="flex flex-col items-center space-y-2">
+                <div className="flex flex-col items-center text-white font-bold">
                   <p>That’s history! We only track upcoming Q&amp;A movies.</p>
                   <button
                     onClick={() => {
@@ -108,7 +111,7 @@ export default function MovieCalendar({ movies }) {
                   </button>
                 </div>
               ) : (
-                <div className="flex flex-col items-center space-y-2">
+                <div className="flex flex-col items-center space-y-2 text-white font-bold">
                   <p>No Q&amp;A movies scheduled for these dates yet — check back soon!</p>
                   <button
                     onClick={() => {
@@ -138,11 +141,11 @@ export default function MovieCalendar({ movies }) {
           eventPropGetter={(event) => {
             let style = {
               backgroundColor: "#dc2626", // AMC red by default
-              color: "white",
-              borderRadius: "0.375rem",
-              border: "2px solid black",
-              fontWeight: 600,
-              padding: "4px 6px",
+              // color: "white",
+              // borderRadius: "0.375rem",
+              // border: "2px solid black",
+              // fontWeight: 600,
+              // padding: "4px 6px",
             };
         
             if (event.theater === "IFC Center") {
@@ -165,7 +168,7 @@ export default function MovieCalendar({ movies }) {
 
         .rbc-toolbar {
           background: #f9fafb; 
-          border-bottom: 1px solid #e5e7eb; 
+          // border-bottom: 1px solid #e5e7eb; 
           padding: 0.75rem;
           display: flex;
           justify-content: space-between;
@@ -200,27 +203,21 @@ export default function MovieCalendar({ movies }) {
 
         .rbc-event {
           color: white;
-          border: 2px solid black;
-          border-radius: 0.375rem;
+          // border: 2px solid black;
+          border-radius: 0.7rem;
           padding: 4px 6px;
           font-size: 0.875rem;
           font-weight: 600;
         }
         
-        .rbc-day-bg {
-          background-color:rgb(233, 192, 192) !important; 
-        }
-        
+
         .rbc-month-row {
-          min-height: 100px; /* give room to display events */
+          min-height: 90px; /* give room to display events */
         }
 
+        .rbc-agenda-view table thead th:nth-child(2),
         .rbc-agenda-time-cell {
           display: none !important;
-        }
-        
-        .rbc-agenda-view table thead th:nth-child(2) {
-          display: none !important; /* hide Time header */
         }
         
         .rbc-agenda-row {
@@ -232,14 +229,16 @@ export default function MovieCalendar({ movies }) {
         }
 
         .rbc-agenda-empty,
+        .rbc-month-view,
         .rbc-month-view .rbc-row .rbc-row-content:only-child {
-          color:rgb(233, 139, 8); /* red-700 */
-          font-weight: 600;
-          font-size: 1rem;
-          text-align: center;
-          padding: 1rem;
-          background-color: #fef2f2; /* red-50 */
-          border-radius: 0.5rem;
+          // color:rgb(233, 139, 8); /* red-700 */
+          // font-weight: 600;
+          // font-size: 1rem;
+          // text-align: center;
+          // padding: 1rem;
+          // background-color:rgb(177, 25, 25); /* red-50 */
+          border-radius: 10px;
+          border: none
         }
 
         .rbc-agenda-date-cell {
@@ -251,6 +250,54 @@ export default function MovieCalendar({ movies }) {
           background-color: inherit !important;
           color: inherit !important;
         }
+
+                .rbc-day-bg {
+          background-color:rgb(210, 168, 251) !important; 
+          // border: 3px rgb(133, 23, 242) !important;
+          // border: none !important
+        }
+        
+        .rbc-month-row + .rbc-month-row {
+  // border-top: none
+}
+
+.rbc-header {
+  // border-bottom: px solid #DDD; /* top row under weekdays */
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border: none;
+  color: white;
+  padding: 2px;
+  border-radius: 10px
+}
+
+
+.rbc-header + .rbc-header {
+  border-left: none;  /* remove vertical separators between headers */
+  // border-right: 3px white;
+  }
+
+.rbc-agenda-view .rbc-agenda-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;  /* fills available space */
+}
+
+// .rbc-agenda-view {
+//   display: flex;
+//   align-items: center;   /* vertical center */
+//   justify-content: center; /* horizontal center */
+//   height: 100%;          /* take full height of calendar container */
+// }
+
+// .rbc-agenda-empty {
+//   text-align: center;
+//   font-size: 1.2rem;
+//   font-weight: 600;
+//   color: white;
+// }
 
       `}</style>
     </div>
