@@ -78,11 +78,11 @@ def angelika_qna_scrape():
                     "link": link,
                     "rating": "No rating",
                     "genre": "No genre",
-                    "duration": "No duration",
+                    "runtime": "No runtime",
                     "language": "No language",
                     "description": "No description",
                     "image_url": "No image",
-                    # "dates": "No dates",
+                    "date": "No date",
                     "qa_notes": "No notes"
                 })
             except Exception as e:
@@ -103,11 +103,11 @@ def angelika_qna_scrape():
                 "link", 
                 "rating",
                 "genre",
-                "duration",
+                "runtime",
                 "language",
                 "description",
                 "image_url",
-                # "dates",
+                "date",
                 "qa_notes"])
             writer.writeheader()
             writer.writerows(shows)

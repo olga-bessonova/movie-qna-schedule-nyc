@@ -151,6 +151,10 @@ export default function MovieCalendar({ movies }) {
             if (event.theater === "IFC Center") {
               style.backgroundColor = "#16a34a"; // green-600
             }
+
+            if (event.theater === "Angelika NYC") {
+              style.backgroundColor = "#0096FF"; // blue
+            }
         
             return { style };
           }}
@@ -180,22 +184,23 @@ export default function MovieCalendar({ movies }) {
           border-radius: 0.5rem;
           padding: 0.25rem 0.75rem;
           font-weight: 500;
-          margin: 0 0.25rem;
+          margin: 3px;
+          border: none;
           transition: background 0.2s;
         }
         
-        .rbc-toolbar button:hover {
-          background:rgb(175, 29, 29); 
-        }
+        // .rbc-toolbar button:hover {
+        //   background:rgb(175, 29, 29); 
+        // }
 
-        .rbc-toolbar button:active,
-         {
-          // background:rgb(255, 239, 14) !important; /* red-600 */
-          color:rgb(0, 0, 0) !important;
-          font-weight: 800;
-          outline: none !important;
-          box-shadow: none !important;
-        }
+        // .rbc-toolbar button:active,
+        //  {
+        //   // background:rgb(255, 239, 14) !important; /* red-600 */
+        //   color:rgb(0, 0, 0) !important;
+        //   font-weight: 800;
+        //   outline: none !important;
+        //   box-shadow: none !important;
+        // }
         
         .rbc-off-range-bg {
           background-color: #f9fafb; 

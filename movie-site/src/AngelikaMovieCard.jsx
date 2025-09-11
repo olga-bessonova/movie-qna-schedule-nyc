@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from "react";
+import formatDate from './formatDate';
 
 function parseParagraphs(input) {
   if (!input) return [];
@@ -63,10 +64,16 @@ export default function AngelikaMovieCard({ movie }) {
 
           {/* Metadata */}
           <p className="text-sm text-gray-600 mt-1">
-            {movie.rating && <span className="mr-2">Rated: {movie.rating}</span>}
-            {movie.genre && <span className="mr-2">{movie.genre}</span>}
-            {movie.duration && <span className="mr-2">{movie.duration}</span>}
-            {movie.language && <span>{movie.language}</span>}
+            {movie.date && <span className="mr-2">{formatDate(movie.date)}</span>} |
+            {movie.runtime && <span className="mx-2">{movie.runtime}</span>} | 
+            {movie.rating && <span className="mx-2">{movie.rating}</span>} |
+            {movie.genre && <span className="mx-2">{movie.genre}</span>} |
+            {movie.language && <span className="mx-2">{movie.language}</span>}
+          </p>
+
+          {/* Q&A notes */}
+          <p className="text-sm text-gray-800 overflow-auto max-h-25 px-2 text-left mt-2">
+            {movie.qa_notes}
           </p>
 
           {/* Description */}
@@ -89,7 +96,7 @@ export default function AngelikaMovieCard({ movie }) {
             href={movie.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-auto bg-green-600 text-white text-center py-2 rounded-lg hover:bg-green-700 transition"
+            className="mt-auto bg-[#0096FF] text-white text-center py-2 rounded-lg hover:bg-[#0075cc] transition"
           >
             Get Tickets
           </a>

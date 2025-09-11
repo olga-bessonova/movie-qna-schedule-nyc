@@ -1,13 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-
-function formatDate(dateSpring) {
-  const date = new Date(dateSpring);
-  return date.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
-}
+import formatDate from './formatDate';
 
 export default function AMCMovieCard({ movie }) {
   const titleRef = useRef(null);
@@ -57,9 +49,8 @@ export default function AMCMovieCard({ movie }) {
           </div>
 
           <p className="text-sm text-gray-500 mt-1">
-            {movie.runtime} | {movie.rating}
+            {formatDate(movie.date)} | {movie.runtime} | {movie.rating}
           </p>
-          <p className="text-sm text-gray-400 m-1">{formatDate(movie.date)}</p>
           <a
             href={movie.link}
             target="_blank"

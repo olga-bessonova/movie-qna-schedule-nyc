@@ -1,19 +1,19 @@
 export default function CalendarCustomToolbar({ label, onNavigate, onView, view, setSelectedTheater, selectedTheater }) {
   return (
-    <div className="rbc-toolbar flex justify-between items-center bg-black p-2 rounded-lg shadow-sm">
+    <div className="rbc-toolbar flex justify-between items-center bg-black p-2 rounded-lg">
       
       {/* Left: Navigation */}
       <div className="flex items-center space-x-2">
         <button
           onClick={() => onNavigate("PREV")}
-          className="px-3 py-1 bg-gray-200 rounded-md hover:bg-gray-300 transition"
+          className="px-3 py-1 border-0 rounded-md hover:bg-gray-300 transition"
         >
           ◀
         </button>
 
         <button
           onClick={() => onNavigate("TODAY")}
-          className="px-4 py-1 bg-red-600 text-white font-semibold rounded-md hover:bg-red-700 transition focus:outline-none focus:ring-0"
+          className="px-10 py-1 bg-yellow-600 border-0 font-semibold rounded-md hover:bg-red-700 transition focus:outline-none focus:ring-0"
         >
           Today
         </button>
@@ -63,6 +63,7 @@ export default function CalendarCustomToolbar({ label, onNavigate, onView, view,
           <option value="All">All Theaters</option>
           <option value="AMC">AMC</option>
           <option value="IFC Center">IFC Center</option>
+          <option value="Angelika NYC">Angelika NYC</option>
         </select>
       </div>
 

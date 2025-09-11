@@ -7,8 +7,8 @@ from logger import get_logger
 
 logger = get_logger()
 
-CSV_FIELDS = ["theater", "title", "link", "rating", "genre", "duration", "language", "description", "image_url", 
-            #   "dates", 
+CSV_FIELDS = ["theater", "title", "link", "rating", "genre", "runtime", "language", "description", "image_url", 
+              "date", 
               "qa_notes"]
 
 def angelika_qna_movie_data(driver, film):
@@ -45,14 +45,30 @@ def angelika_qna_movie_data(driver, film):
             description = "No description"
             logger.warning(f"No description found for {film.get('title', '')} ({e})")
 
-        # Duration
+        # Runtime
         try:
-            duration_div = driver.find_element(By.CSS_SELECTOR, "div.film-rating-wrapper img.duration").find_element(By.XPATH, "..")
-            duration = duration_div.get_attribute("textContent").strip()
-            logger.info(f"Found duration: {duration}")
+            runtime_div = driver.find_element(By.CSS_SELECTOR, "div.film-rating-wrapper img.duration").find_element(By.XPATH, "..")
+            runtime_raw = runtime_div.get_attribute("textContent").strip()
+
+            # Extract numbers
+            match = re.match(r"(?:(\d+)\s*hour[s]?)?(?:\s*and\s*)?(?:(\d+)\s*minute[s]?)?", runtime_raw, re.IGNORECASE)
+            if match:
+                hours = match.group(1)
+                minutes = match.group(2)
+                parts = []
+                if hours:
+                    parts.append(f"{hours} H")
+                if minutes:
+                    parts.append(f"{minutes} MIN")
+                runtime = " ".join(parts)
+            else:
+                runtime = runtime_raw  # fallback if regex fails
+
+            logger.info(f"Found runtime: {runtime}")
+
         except Exception as e:
-            duration = "No duration"
-            logger.warning(f"No duration found for {film.get('title', '')} ({e})")
+            runtime = "No runtime"
+            logger.warning(f"No runtime found for {film.get('title', '')} ({e})")
 
         # Language
         try:
@@ -63,16 +79,24 @@ def angelika_qna_movie_data(driver, film):
             language = "No language"
             logger.warning(f"No language found for {film.get('title', '')} ({e})")
 
-        # Movie notes
+        # Q&A notes
         try:
             note_divs = driver.find_elements(By.CSS_SELECTOR, "div.movie-note div.note-text")
             qa_notes_list = []
+            seen = set()
+
             for nd in note_divs:
                 paragraphs = nd.find_elements(By.TAG_NAME, "p")
                 for p in paragraphs:
+                    # skip <p> that has <p> children (non-leaf)
+                    if p.find_elements(By.TAG_NAME, "p"):
+                        continue
+
                     txt = p.get_attribute("textContent").strip()
-                    if txt:
-                        qa_notes_list.append(txt)
+                    normalized = " ".join(txt.split())  # collapse whitespace
+                    if normalized and normalized not in seen:
+                        seen.add(normalized)
+                        qa_notes_list.append(normalized)
 
             qa_notes = " ".join(qa_notes_list)
             logger.info(f"Found Q&A notes: {qa_notes}")
@@ -80,27 +104,29 @@ def angelika_qna_movie_data(driver, film):
         except Exception as e:
             qa_notes = ""
             logger.warning(f"No Q&A notes found for {film.get('title', '')} ({e})")
+     
+        #  Movie date
+        try:
+            date_elem = driver.find_element(By.CSS_SELECTOR, "div#anytime span")
+            raw_date = date_elem.get_attribute("textContent").strip()  # e.g., "Wednesday 9/17"
+            logger.info(f"Raw showtime date: {raw_date}")
 
-        
-        # Movie dates
-        # try:
-        #     # Regex to capture dates like "Sept 17", "Sep 17", "September 17"
-        #     date_pattern = r"(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)[a-z]*\s+\d{1,2}"
-        #     matches = re.findall(date_pattern, qa_notes)
+            # Extract the "9/17" part
+            date_match = re.search(r"\d{1,2}/\d{1,2}", raw_date)
+            if date_match:
+                month_day = date_match.group(0)  # "9/17"
+                # Add current year
+                current_year = datetime.now().year
+                dt = datetime.strptime(f"{month_day}/{current_year}", "%m/%d/%Y")
+                date = dt.strftime("%Y-%m-%d")  
+            else:
+                date = ""
 
-        #     extracted_dates = []
-        #     for m in matches:
-        #         m_norm = m.replace("Sept", "Sep")  # normalize to Python's %b
-        #         try:
-        #             dt = datetime.strptime(f"{m_norm} 2025", "%b %d %Y")  # short month
-        #         except ValueError:
-        #             dt = datetime.strptime(f"{m_norm} 2025", "%B %d %Y")  # long month
-        #         extracted_dates.append(dt.strftime("%Y-%m-%d"))
+            logger.info(f"Extracted Q&A date: {date}")
 
-
-        # except Exception as e:
-        #     dates = ""
-        #     logger.warning(f"No dates found for {film.get('title', '')} ({e})")
+        except Exception as e:
+            date = ""
+            logger.warning(f"No date found for {film.get('title', '')} ({e})")
 
         # Movie image
         try:
@@ -116,11 +142,11 @@ def angelika_qna_movie_data(driver, film):
         film_data.update({
             "rating": rating,
             "genre": genre,
-            "duration": duration,
+            "runtime": runtime,
             "language": language,
             "description": description,
             "image_url": img_url,
-            # "dates": dates,
+            "date": date,
             "qa_notes": qa_notes
         })
 
