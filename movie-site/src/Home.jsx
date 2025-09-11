@@ -4,6 +4,7 @@ import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import AMCMovieCard from "./AMCMovieCard"
 import IFCMovieCard from "./IFCMovieCard"
+import AngelikaMovieCard from "./AngelikaMovieCard"
 import MovieCalendar from "./Calendar";
 import PosterBackground from "./PosterBackground";
 
@@ -11,6 +12,7 @@ import PosterBackground from "./PosterBackground";
 export default function Home() {
   const [AMCmovies, setAMCmovies] = useState([]);
   const [IFCmovies, setIFCmovies] = useState([]);
+  const [Angelikamovies, setAngelikamovies] = useState([]);
 
   const [amcSliderRef, amcInstanceRef] = useKeenSlider({
     mode: "free",
@@ -24,6 +26,12 @@ export default function Home() {
     centered: true,
   });
 
+  const [angelikaSliderRef, angelikaInstanceRef] = useKeenSlider({
+    mode: "free",
+    slides: { perView: "auto", spacing: 20 },
+    centered: true,
+  });
+
   useEffect(() => {
     if (amcInstanceRef.current) amcInstanceRef.current.update();
   }, [AMCmovies]);
@@ -31,6 +39,10 @@ export default function Home() {
   useEffect(() => {
     if (ifcInstanceRef.current) ifcInstanceRef.current.update();
   }, [IFCmovies]);
+
+  useEffect(() => {
+    if (angelikaInstanceRef.current) angelikaInstanceRef.current.update();
+  }, [Angelikamovies]);
 
   useEffect(() => {
     Papa.parse("/amc_qna_shows.csv", {
@@ -48,6 +60,15 @@ export default function Home() {
       skipEmptyLines: true,
       complete: (results) => {
         setIFCmovies(results.data);
+      },
+    });
+
+    Papa.parse("/angelika_qna_shows.csv", {
+      download: true,
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        setAngelikamovies(results.data);
       },
     });
   }, []);
@@ -74,9 +95,20 @@ export default function Home() {
         });
       }
     }
+
+    if (event.theater === "Angelika NYC") {
+      const index = Angelikamoviesmovies.findIndex((m) => m.title === event.title);
+      if (index !== -1 && angelikaInstanceRef.current) {
+        angelikaInstanceRef.current.moveToIdx(index, true, { align: "center" });
+        document.getElementById("angelika-section")?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }
+    }
   };
   
-  const allMovies = [...AMCmovies, ...IFCmovies];
+  const allMovies = [...AMCmovies, ...IFCmovies, ...Angelikamovies];
 
   // Expand movies with multiple dates into separate events
   const calendarEvents = allMovies.flatMap((movie) => {
@@ -178,7 +210,40 @@ export default function Home() {
         >
           ▶
         </button>
+
+        
       </div>
+
+      <div className="bg-black text-white p-8 relative">
+        <h1 className="text-3xl font-bold text-center mb-10">
+          🎬 Angelika
+        </h1>
+
+        {/* Carousel Angelika */}
+        <div className="flex justify-center"> 
+          <div ref={angelikaSliderRef} className="keen-slider justify-center mx-auto">
+            {Angelikamovies.map((movie, i) => (
+              <AngelikaMovieCard key={i} movie={movie} />
+            ))}
+          </div>
+
+        </div>
+
+        {/* Arrows */}
+        <button
+          onClick={() => angelikaInstanceRef.current?.prev()}
+          className="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800/70 text-white p-3 rounded-full hover:bg-gray-900 transition"
+        >
+          ◀
+        </button>
+        <button
+          onClick={() => angelikaInstanceRef.current?.next()}
+          className="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800/70 text-white p-3 rounded-full hover:bg-gray-900 transition"
+        >
+          ▶
+        </button>
+      </div>
+
 
       <footer className="text-center text-white text-sm py-4 flex flex-col items-center space-y-2">
         <p>
