@@ -179,19 +179,19 @@ export default function MovieCalendar({ movies }) {
           align-items: center;
         }
         
-        .rbc-toolbar button {
-          background: #ef4444; 
-          border-radius: 0.5rem;
-          padding: 0.25rem 0.75rem;
+        .rbc-toolbar button, #movie_selector {
+          background: #ffc211; 
+          border-radius: 1rem;
+          padding: 0.4rem 1rem;
           font-weight: 500;
           margin: 3px;
           border: none;
           transition: background 0.2s;
         }
         
-        // .rbc-toolbar button:hover {
-        //   background:rgb(175, 29, 29); 
-        // }
+        .rbc-toolbar button:hover {
+          background:rgb(198, 149, 3); 
+        }
 
         // .rbc-toolbar button:active,
         //  {
@@ -229,9 +229,7 @@ export default function MovieCalendar({ movies }) {
           min-height: 300px; /* give room to display events */
         }
 
-        .rbc-today {
-          background-color:rgb(234, 166, 166) !important; 
-        }
+
 
         .rbc-agenda-empty,
         .rbc-month-view,
@@ -257,7 +255,9 @@ export default function MovieCalendar({ movies }) {
         }
 
                 .rbc-day-bg {
-          background-color:rgb(210, 168, 251) !important; 
+                
+          background-color: #e3a4d3 !important; 
+          // background-color:rgb(210, 168, 251) !important; 
           // border: 3px rgb(133, 23, 242) !important;
           // border: none !important
         }
@@ -303,6 +303,9 @@ export default function MovieCalendar({ movies }) {
 //   font-weight: 600;
 //   color: white;
 // }
+        .rbc-today {
+          background-color:rgb(225, 133, 202) !important; 
+        }
 
       `}</style>
     </div>

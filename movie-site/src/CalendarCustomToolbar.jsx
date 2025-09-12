@@ -19,7 +19,6 @@ export default function CalendarCustomToolbar({ label, onNavigate, onView, view,
         </button>
 
         {/* Right: View buttons */}
-      <div className="flex space-x-2">
         <button
           onClick={() => onView("month")}
           className={`px-4 py-1 rounded-md transition ${
@@ -40,7 +39,6 @@ export default function CalendarCustomToolbar({ label, onNavigate, onView, view,
         >
           Agenda
         </button>
-      </div>
 
         <button
           onClick={() => onNavigate("NEXT")}
@@ -50,22 +48,20 @@ export default function CalendarCustomToolbar({ label, onNavigate, onView, view,
         </button>
 
         {/* Current month/label */}
-        <span className="ml-4 text-lg font-bold text-gray-800 px-10">{label}</span>
+        <span className="ml-4 text-[24px] font-bold text-white px-10">{label}</span>
       </div>
 
       {/* Middle: Theater filter */}
-      <div>
-        <select
+        <select id="movie_selector"
           value={selectedTheater}
           onChange={(e) => setSelectedTheater(e.target.value)}
-          className="bg-yellow-200 border border-gray-200 rounded-md px-3 py-1 font-bold text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+          // className="bg-[#ffc211] border border-gray-200 rounded-md px-3 py-1 font-bold text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
         >
           <option value="All">All Theaters</option>
           <option value="AMC">AMC</option>
           <option value="IFC Center">IFC Center</option>
           <option value="Angelika NYC">Angelika NYC</option>
         </select>
-      </div>
 
       
     </div>
