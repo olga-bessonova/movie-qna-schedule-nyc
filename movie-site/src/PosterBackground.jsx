@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 // Vite dynamic import for all poster images
 const posters = import.meta.glob("./assets/posters/*.{png,jpg,jpeg,svg}", {
@@ -7,7 +7,6 @@ const posters = import.meta.glob("./assets/posters/*.{png,jpg,jpeg,svg}", {
 });
 const posterList = Object.values(posters);
 
-// Shuffle once
 function shuffleArray(arr) {
   return arr
     .map((value) => ({ value, sort: Math.random() }))
@@ -16,12 +15,17 @@ function shuffleArray(arr) {
 }
 
 export default function PosterBackground() {
-  const shuffled = shuffleArray(posterList);
+  const shuffled = useMemo(() => shuffleArray(posterList), []);
 
-  // split into 4 rows
-  const rows = Array.from({ length: 4 }, (_, i) =>
-    shuffled.slice(i * Math.ceil(shuffled.length / 4), (i + 1) * Math.ceil(shuffled.length / 4))
-  );
+  // split into 3 rows instead of 4
+  const rows = useMemo(() => {
+    return Array.from({ length: 3 }, (_, i) =>
+      shuffled.slice(
+        i * Math.ceil(shuffled.length / 3),
+        (i + 1) * Math.ceil(shuffled.length / 3)
+      )
+    );
+  }, [shuffled]);
 
   return (
     <div className="absolute inset-0 overflow-hidden z-0">
@@ -31,7 +35,8 @@ export default function PosterBackground() {
           className="flex whitespace-nowrap"
           style={{
             position: "absolute",
-            top: `${rowIndex * 25}%`,
+            top: `${(rowIndex / 3) * 100}%`,
+            height: "33.33333%", // each row takes exactly 1/3 of viewport height
           }}
         >
           {rowPosters.map((poster, i) => (
@@ -39,7 +44,7 @@ export default function PosterBackground() {
               key={`${rowIndex}-${i}`}
               src={poster}
               alt="poster"
-              className="h-40 w-auto object-cover mx-1 opacity-40 rounded"
+              className="w-auto h-full object-cover opacity-30"
             />
           ))}
         </div>

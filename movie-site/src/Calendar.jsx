@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -11,6 +11,25 @@ export default function MovieCalendar({ movies }) {
   const [date, setDate] = useState(new Date());
   const [view, setView] = useState("month");
   const [selectedTheater, setSelectedTheater] = useState('All')
+
+  // track height of month view
+  const calendarRef = useRef(null);
+  const [calendarHeight, setCalendarHeight] = useState(null); // fallback
+  useEffect(() => {
+    if (!calendarRef.current) return;
+  
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        setCalendarHeight(entry.contentRect.height);
+      }
+    });
+  
+    observer.observe(calendarRef.current);
+  
+    return () => observer.disconnect();
+  }, []);
+  
+
 
   const filteredMovies = 
     selectedTheater === "All"
@@ -65,7 +84,13 @@ export default function MovieCalendar({ movies }) {
 
       {/* <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm" */}
       <div className="rounded-xl overflow-hidden"
-        style={{ height: view === "agenda" ? "300px" : "auto" }}
+        ref={calendarRef}
+        style={{ height:
+          view === "agenda"
+            ? calendarHeight
+              ? `${calendarHeight}px`
+              : "auto" // use auto until measured
+            : "auto", }}
       >
         
         <Calendar

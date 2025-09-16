@@ -143,13 +143,15 @@ export default function Home() {
   
   return (
     <div className="bg-black">
-      <div className="relative w-full h-full">
-        <PosterBackground />
 
-        <div className="relative z-10">
+      <div className="relative w-full  bg-black rounded-2xl shadow-lg p-4">
+        {/* <div> */}
+          <PosterBackground />
+        <div className="relative">
             <MovieCalendar movies={calendarEvents} onEventSelect={handleEventSelect} />
         </div>
       </div>
+
 
 
       <div className="bg-black text-white p-8 relative">
