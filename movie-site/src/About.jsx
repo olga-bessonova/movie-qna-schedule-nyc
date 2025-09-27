@@ -1,5 +1,6 @@
 import Footer from './Footer.jsx'
 import olgaInfo2 from "./assets/developer/olga4.png";
+import Feedback from './Feedback.jsx'
 
 export default function About() {
   return (
@@ -28,6 +29,24 @@ export default function About() {
 
               As a film lover and software developer, I built this project as a hobby and I hope it will be useful to many others who share the same passion. Your feedback and support mean a lot!
             </p>
+              
+            <p className="text-xs">
+
+              Found a bug? 
+              <a
+                href="https://github.com/olga-bessonova/movie-qna-schedule-nyc/issues"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="m-1 text-blue-400 font-semibold hover:bg-pink-300 hover:text-white 
+                          transition-colors shadow-lg p-2 rounded-xl"
+              >
+                 Open an Issue
+              </a>
+            </p>
+
+            
+    
+            
 
             {/* CTA → Buy Me a Coffee */}
             <div className="flex gap-4">
@@ -53,7 +72,6 @@ export default function About() {
                 💵 Venmo Me
               </a>
             </div>
-
 
           
           </div>
@@ -146,8 +164,11 @@ export default function About() {
                   zIndex: -1,
                   }}
               />
-              </div>          
+              </div>  
+                      
           </div>
+
+          
         </div>
 
   <Footer />
