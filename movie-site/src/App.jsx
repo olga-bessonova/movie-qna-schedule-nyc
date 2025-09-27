@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Home from "./Home";   
 import About from "./About"; 
-import AboutNew from "./AboutNew"; 
 import PosterBackground from "./PosterBackground";
 
 export default function App() {
@@ -42,18 +41,12 @@ export default function App() {
         >
           Home
         </Link>
+
         <Link
           to="/about"
           className="font-extrabold text-[#ffc211] text-[20px] hover:text-[#e3a4d3] transition-colors"
         >
           About
-        </Link>
-
-        <Link
-          to="/aboutnew"
-          className="font-extrabold text-[#ffc211] text-[20px] hover:text-[#e3a4d3] transition-colors"
-        >
-          AboutNEW
         </Link>
       </nav>
 
@@ -63,7 +56,6 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/aboutnew" element={<AboutNew />} />
         </Routes>
       </div>
     </Router>
