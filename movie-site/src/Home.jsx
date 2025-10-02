@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Papa from "papaparse";
+import moment from "moment";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import AMCMovieCard from "./AMCMovieCard"
@@ -8,7 +9,6 @@ import AngelikaMovieCard from "./AngelikaMovieCard"
 import MovieCalendar from "./Calendar";
 import PosterBackground from "./PosterBackground";
 import Footer from "./Footer";
-
 
 export default function Home() {
   const [AMCmovies, setAMCmovies] = useState([]);
@@ -22,9 +22,10 @@ export default function Home() {
   });
   
   const [ifcSliderRef, ifcInstanceRef] = useKeenSlider({
-    mode: "free",
+    mode: "snap",
     slides: { perView: "auto", spacing: 20 },
-    centered: true,
+    rubberband: true,
+    // centered: true,
   });
 
   const [angelikaSliderRef, angelikaInstanceRef] = useKeenSlider({
@@ -110,25 +111,35 @@ export default function Home() {
   };
   
   const allMovies = [...AMCmovies, ...IFCmovies, ...Angelikamovies];
+  console.log("allMovies: ", allMovies)
 
-  // Expand movies with multiple dates into separate events
   const calendarEvents = allMovies.flatMap((movie) => {
     if (!movie.date) return [];
   
-    // Ensure we always have a string
     const dates = typeof movie.date === "string"
       ? movie.date.split(",").map((d) => d.trim())
       : Array.isArray(movie.date) ? movie.date : [];
   
     return dates
-      .filter((d) => d && d.includes("-")) // skip empty or invalid
       .map((d) => {
-        const [year, month, day] = d.split("-").map(Number);
+        if (!d) return null;
   
-        if (!year || !month || !day) return null; // safeguard
+        // Accept ISO, slashes, two-digit years
+        const parsed = moment(d, [
+          "YYYY-MM-DD",
+          "M/D/YYYY",
+          "MM/DD/YYYY",
+          "M/D/YY",
+          "MM/DD/YY"
+        ], true);
   
-        // 6pm Eastern → store directly as UTC
-        const startDate = new Date(Date.UTC(year, month - 1, day, 22, 0, 0)); // 22:00 UTC = 6pm ET
+        if (!parsed.isValid()) {
+          console.warn("Invalid date format:", d, "for movie", movie.title);
+          return null;
+        }
+  
+        const startDate = parsed.toDate();
+        startDate.setUTCHours(22, 0, 0, 0); // normalize to 6pm ET
         const endDate = new Date(startDate.getTime() + 24 * 60 * 60 * 1000);
   
         return {
@@ -139,8 +150,9 @@ export default function Home() {
           allDay: true,
         };
       })
-      .filter(Boolean); // remove nulls
+      .filter(Boolean);
   });
+  
   
   return (
     <div className="bg-black">
@@ -192,7 +204,8 @@ export default function Home() {
 
         {/* Carousel IFC */}
         <div className="flex justify-center"> 
-          <div ref={ifcSliderRef} className="keen-slider justify-center mx-auto">
+          {/* <div ref={ifcSliderRef} className="keen-slider justify-center mx-auto"> */}
+          <div ref={ifcSliderRef} className="keen-slider mx-auto">
             {IFCmovies.map((movie, i) => (
               <IFCMovieCard key={i} movie={movie} />
             ))}
@@ -202,17 +215,31 @@ export default function Home() {
 
         {/* Arrows */}
         <button
-          onClick={() => ifcInstanceRef.current?.prev()}
-          className="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800/70 text-white p-3 rounded-full hover:bg-gray-900 transition"
-        >
-          ◀
-        </button>
-        <button
-          onClick={() => ifcInstanceRef.current?.next()}
-          className="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800/70 text-white p-3 rounded-full hover:bg-gray-900 transition"
-        >
-          ▶
-        </button>
+  onClick={() => {
+    const slider = ifcInstanceRef.current
+    if (!slider) return
+    const currentAbs = slider.track.details.abs
+    slider.moveToIdx(Math.max(currentAbs - 1, 0))
+    console.log("Move left → Current abs:", currentAbs - 1)
+  }}
+  className="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800/70 text-white p-3 rounded-full hover:bg-gray-900 transition"
+>
+  ◀
+</button>
+
+<button
+  onClick={() => {
+    console.log("Current slide:", ifcInstanceRef.current?.track.details.rel)
+    const slider = ifcInstanceRef.current
+    if (!slider) return
+    const current = slider.track.details.rel
+    slider.moveToIdx(Math.min(current + 1, slider.track.details.slides.length - 1))
+  }}
+  className="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800/70 text-white p-3 rounded-full hover:bg-gray-900 transition"
+>
+  ▶
+</button>
+
 
         
       </div>
@@ -224,7 +251,8 @@ export default function Home() {
 
         {/* Carousel Angelika */}
         <div className="flex justify-center"> 
-          <div ref={angelikaSliderRef} className="keen-slider justify-center mx-auto">
+          {/* <div ref={angelikaSliderRef} className="keen-slider justify-center mx-auto"> */}
+          <div ref={angelikaSliderRef} className="keen-slider mx-auto">
             {Angelikamovies.map((movie, i) => (
               <AngelikaMovieCard key={i} movie={movie} />
             ))}

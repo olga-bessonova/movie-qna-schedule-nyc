@@ -5,7 +5,7 @@ import Feedback from './Feedback.jsx'
 export default function About() {
   return (
     <div className='bg-black flex flex-col'>
-      <div className="flex-1 px-5 py-8">
+      <div className="flex-1">
         <div className="px-5 py-4 flex justify-center items-center">
           
           {/* Left: Text */}
@@ -23,8 +23,8 @@ export default function About() {
               It’s a unique chance to meet creators in person, ask questions, and experience cinema in a whole new way.
               <br /><br />
 
-              This site is a centralized calendar that gathers all upcoming 
-              <span className="text-[#e3a4d3] font-semibold"> Q&A screenings </span>            
+              This site is a centralized calendar that gathers upcoming 
+              <span className="text-[#e3a4d3] font-semibold"> Q&A sessions </span>            
               in one place, so you don’t have to search theater by theater.
 
               As a film lover and software developer, I built this project as a hobby and I hope it will be useful to many others who share the same passion. Your feedback and support mean a lot!

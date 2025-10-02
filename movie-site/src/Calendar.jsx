@@ -11,6 +11,7 @@ export default function MovieCalendar({ movies }) {
   const [date, setDate] = useState(new Date());
   const [view, setView] = useState("month");
   const [selectedTheater, setSelectedTheater] = useState('All')
+  console.log(movies)
 
   // track height of month view
   const calendarRef = useRef(null);
@@ -315,19 +316,6 @@ export default function MovieCalendar({ movies }) {
   height: 100%;  /* fills available space */
 }
 
-// .rbc-agenda-view {
-//   display: flex;
-//   align-items: center;   /* vertical center */
-//   justify-content: center; /* horizontal center */
-//   height: 100%;          /* take full height of calendar container */
-// }
-
-// .rbc-agenda-empty {
-//   text-align: center;
-//   font-size: 1.2rem;
-//   font-weight: 600;
-//   color: white;
-// }
         .rbc-today {
           background-color:rgb(225, 133, 202) !important; 
         }

@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Home from "./Home";   
 import About from "./About"; 
-import PosterBackground from "./PosterBackground";
 
 export default function App() {
   const [showNav, setShowNav] = useState(true);
@@ -11,10 +10,10 @@ export default function App() {
   useEffect(() => {
     function handleScroll() {
       if (window.scrollY > lastScrollY) {
-        // scrolling down → hide nav
+        // scrolling down -> hide nav
         setShowNav(false);
       } else {
-        // scrolling up → show nav
+        // scrolling up -> show nav
         setShowNav(true);
       }
       setLastScrollY(window.scrollY);
@@ -52,7 +51,7 @@ export default function App() {
 
 
       {/* Push content down so it’s not hidden behind fixed nav */}
-      <div className="pt-15">
+      <div className="pt-16">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />

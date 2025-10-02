@@ -37,7 +37,7 @@ export default function CalendarCustomToolbar({ label, onNavigate, onView, view,
               : "bg-gray-200 hover:bg-gray-300"
           }`}
         >
-          Agenda
+          Film Lineup
         </button>
 
         <button
