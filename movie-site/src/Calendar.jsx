@@ -8,7 +8,7 @@ import CalendarCustomToolbar from './CalendarCustomToolbar'
 const localizer = momentLocalizer(moment)
 
 
-export default function MovieCalendar({ movies, onEventSelect }) {
+export default function MovieCalendar({ movies }) {
   const {
     setCurrentAMCSlide,
     setCurrentIFCSlide,
@@ -92,7 +92,6 @@ export default function MovieCalendar({ movies, onEventSelect }) {
       setCurrentAngelikaSlide(event.movie_index);
     }
 
-    // 2️⃣ Smooth scroll to section
     const sectionId =
       event.theater === "AMC"
         ? "amc-section"

@@ -108,7 +108,7 @@ export default function Home() {
           🎬 AMC
         </h1>
 
-        <div className="bg-black text-white p-8 relative" id="ifc-section">
+        <div className="bg-black text-white p-8 relative" id="amc-section">
             <Carousel movies={AMCmovies} CardComponent={AMCMovieCard} theater="AMC" />
         </div>
       </div>
@@ -129,7 +129,7 @@ export default function Home() {
           🎬 Angelika NYC
         </h1>
 
-        <div className="bg-black text-white p-8 relative" id="ifc-section">
+        <div className="bg-black text-white p-8 relative" id="angelika-section">
             <Carousel movies={Angelikamovies} CardComponent={AngelikaMovieCard} theater="Angelika NYC" />
         </div>
       </div>
