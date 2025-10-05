@@ -40,6 +40,7 @@ def scrape_page(page_num):
         return []
 
     movies = []
+    movie_index = 0
     for post in posts:
         a_tag = post.find("a")
         title = a_tag.get_text(strip=True) if a_tag else "NOT FOUND"
@@ -59,7 +60,10 @@ def scrape_page(page_num):
                 "ticket_link": "",
                 "image_url": movie_data.get("image_url", ""),
                 "paragraphs_qna": movie_data.get("paragraphs_qna", []),
-            })
+                "movie_index": movie_index,
+            }
+            movie_index =+
+            )
         else:
             logger.info(f"Skipping movie because it has no upcoming Q&A {link}")
 

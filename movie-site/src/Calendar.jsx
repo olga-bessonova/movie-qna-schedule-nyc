@@ -1,21 +1,27 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
+import { useSlideStore } from "./store";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import CalendarCustomToolbar from './CalendarCustomToolbar'
 
 const localizer = momentLocalizer(moment)
 
 
-export default function MovieCalendar({ movies }) {
+export default function MovieCalendar({ movies, onEventSelect }) {
+  const {
+    setCurrentAMCSlide,
+    setCurrentIFCSlide,
+    setCurrentAngelikaSlide,
+  } = useSlideStore();
   const [date, setDate] = useState(new Date());
   const [view, setView] = useState("month");
   const [selectedTheater, setSelectedTheater] = useState('All')
-  console.log(movies)
 
   // track height of month view
   const calendarRef = useRef(null);
   const [calendarHeight, setCalendarHeight] = useState(null); // fallback
+
   useEffect(() => {
     if (!calendarRef.current) return;
   
@@ -44,13 +50,15 @@ export default function MovieCalendar({ movies }) {
 
     const startDate = moment(start, "YYYY-MM-DD").toDate();
     const endDate = startDate
+    
 
     return {
       title: movie.title || "Untitled",
       start: startDate,
       end: endDate,
       allDay: true,
-      theater: movie.theater
+      theater: movie.theater,
+      movie_index: Number(movie.movie_index),
     };
   })
   .filter(Boolean);
@@ -74,6 +82,33 @@ export default function MovieCalendar({ movies }) {
     }
   }
   
+  const handleSelectEvent = (event) => {
+    // 1️⃣ Update correct theater's slide index
+    if (event.theater === "AMC") {
+      setCurrentAMCSlide(event.movie_index);
+    } else if (event.theater === "IFC Center") {
+      setCurrentIFCSlide(event.movie_index);
+    } else if (event.theater === "Angelika NYC") {
+      setCurrentAngelikaSlide(event.movie_index);
+    }
+
+    // 2️⃣ Smooth scroll to section
+    const sectionId =
+      event.theater === "AMC"
+        ? "amc-section"
+        : event.theater === "IFC Center"
+        ? "ifc-section"
+        : event.theater === "Angelika NYC"
+        ? "angelika-section"
+        : null;
+
+    if (sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  };
 
 
   return (
@@ -102,7 +137,8 @@ export default function MovieCalendar({ movies }) {
           date={date}
           onNavigate={(newDate) => setDate(newDate)}
           view={view}
-          // onView={(newView) => setView(newView)}
+          onSelectEvent={handleSelectEvent}
+          
           onView={(newView) => {
             setView(newView);
             if (newView === "agenda") {
@@ -184,12 +220,12 @@ export default function MovieCalendar({ movies }) {
         
             return { style };
           }}
-          onSelectEvent={(event) => {
-            const el = document.getElementById(`movie-${event.title.replace(/\s+/g, "-")}`);
-            if (el) {
-              el.scrollIntoView({ behavior: "smooth", block: "center" });
-            }
-          }}
+          // onSelectEvent={(event) => {
+          //   const el = document.getElementById(`movie-${event.title.replace(/\s+/g, "-")}`);
+          //   if (el) {
+          //     el.scrollIntoView({ behavior: "smooth", block: "center" });
+          //   }
+          // }}
         />
       </div>
 

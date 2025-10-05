@@ -64,8 +64,8 @@ export default function IFCMovieCard({ movie }) {
   return (
     <div
       id={`movie-${movie.title.replace(/\s+/g, "-")}`}
-      className="keen-slider__slide flex justify-center min-w-[550px] max-w-[500px] rounded-2xl">
-      <div className="w-[800px] bg-white rounded-2xl shadow-lg relative group overflow-visible flex flex-col max-h-120">
+      className="flex justify-center min-w-[550px] max-w-[500px] rounded-2xl">
+      <div className="w-[800px] bg-white rounded-2xl shadow-lg relative group overflow-hidden flex flex-col max-h-120">
         <img
           src={movie.image_url}
           alt={movie.title}
@@ -95,20 +95,18 @@ export default function IFCMovieCard({ movie }) {
               </div>
             )}
           </div>
-
-          <p className="text-sm text-gray-500 mt-1">
-            {movie.runtime} 
-          </p>
       
 
           {/* Multiple dates */}
           {Object.entries(grouped).map(([monthYear, days], i) => {
+            const [month, year] = monthYear.split(" ");
             return (
-              <p key={i}>
-                {monthYear} {days.join(", ")}
+              <p key={i} className="text-sm text-gray-500 mt-1">
+                {`${month} ${days.join(", ")} ${year} | ${movie.runtime}`}
               </p>
             );
           })}
+
 
           <div className="text-sm text-gray-800 overflow-auto max-h-25 px-2 text-left">
             {paragraphs_qna.map((p, i) => (

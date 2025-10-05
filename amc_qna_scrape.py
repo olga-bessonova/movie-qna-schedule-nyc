@@ -57,8 +57,9 @@ def amc_qna_scrape():
         film_links = amc_qna_movie_list(driver)
 
         shows = []
-        for film in film_links:
+        for i, film in enumerate(film_links):
             show = amc_qna_movie_data(driver, film)
+            show["movie_index"] = i
             if "date" in show and show["date"]:
                 show["date"] = normalize_date(show["date"])  # normalize date here
             shows.append(show)
@@ -71,7 +72,7 @@ def amc_qna_scrape():
         with open("movie-site/public/amc_qna_shows.csv", "w", newline="", encoding="utf-8") as f:
             fieldnames = [
                 "theater", "title", "link", "date", "description", 
-                "runtime", "rating", "ticket_link", "image_url"
+                "runtime", "rating", "ticket_link", "image_url", "movie_index"
             ]
             writer = csv.DictWriter(f, fieldnames=fieldnames)
             writer.writeheader()
