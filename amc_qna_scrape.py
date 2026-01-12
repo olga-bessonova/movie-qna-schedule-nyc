@@ -5,6 +5,9 @@ import time
 import os
 import csv
 from datetime import datetime
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from amc_qna_movie_list import amc_qna_movie_list
 from amc_qna_movie_data import amc_qna_movie_data
 from user_agents import USER_AGENTS
@@ -39,10 +42,12 @@ def amc_qna_scrape():
     try:
         # Load cookies if they exist
         if os.path.exists('cookies.json'):
+            logger.info("Loading cookies...")
             driver.get("https://www.amctheatres.com")
             time.sleep(3)
             with open('cookies.json', 'r') as f:
                 cookies = json.load(f)
+            logger.info(f"Loading {len(cookies)} cookies...")
             for cookie in cookies:
                 cookie.pop('sameSite', None)
                 cookie.pop('expiry', None)
@@ -50,11 +55,48 @@ def amc_qna_scrape():
                     driver.add_cookie(cookie)
                 except Exception as e:
                     logger.error(f"Error in cookie {cookie.get('name')}: {e}")
+            logger.info("Cookies loaded. Refreshing page...")
+            driver.refresh()
+            time.sleep(2)
 
+        logger.info("Navigating to AMC search page...")
         driver.get("https://www.amctheatres.com/search?filter=all&q=q%26a")
-        time.sleep(5)
+        
+        # Wait for page to load and verify we're on the right page
+        try:
+            WebDriverWait(driver, 15).until(
+                lambda d: d.execute_script("return document.readyState") == "complete"
+            )
+            logger.info(f"Page loaded. Current URL: {driver.current_url}")
+            logger.info(f"Page title: {driver.title}")
+            
+            # Wait a bit more for dynamic content
+            time.sleep(3)
+            
+            # Check if page has loaded content
+            sections = driver.find_elements(By.TAG_NAME, "section")
+            logger.info(f"Found {len(sections)} sections on page")
+            
+        except Exception as e:
+            logger.error(f"Page load error: {e}")
+            logger.error(f"Current URL: {driver.current_url}")
+            raise
 
         film_links = amc_qna_movie_list(driver)
+        
+        if not film_links:
+            logger.warning("No film links found! Check if page loaded correctly.")
+            logger.info(f"Page source length: {len(driver.page_source)}")
+            # Take a screenshot for debugging
+            try:
+                driver.save_screenshot("amc_debug_screenshot.png")
+                logger.info("Saved debug screenshot: amc_debug_screenshot.png")
+            except:
+                pass
+            logger.error("Stopping: No movies found to scrape")
+            return
+
+        logger.info(f"Found {len(film_links)} movies to process")
 
         shows = []
         for i, film in enumerate(film_links):

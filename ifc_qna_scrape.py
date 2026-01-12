@@ -25,7 +25,7 @@ def get_earliest_date(date_str):
     return min(parsed).strftime("%Y-%m-%d")
 
 
-def scrape_page(page_num):
+def scrape_page(page_num, start_index=0):
     url = f"https://www.ifccenter.com/page/{page_num}/?s=q%26a"
     headers = {"User-Agent": random.choice(USER_AGENTS)}
 
@@ -37,15 +37,17 @@ def scrape_page(page_num):
     posts = soup.select("div.post")
     if not posts:
         logger.info(f"No posts found on {url}, stopping.")
-        return []
+        return [], start_index
 
     movies = []
-    movie_index = 0
+    movie_index = start_index
     for post in posts:
         a_tag = post.find("a")
         title = a_tag.get_text(strip=True) if a_tag else "NOT FOUND"
         link = a_tag["href"] if a_tag else "NOT FOUND"
-        description = post.find("p").get_text(strip=True) if post.find("p") else "NOT FOUND"
+        p_tag = post.find("p")
+        description = p_tag.get_text(strip=True) if p_tag else "NOT FOUND"
+
 
         movie_data = ifc_qna_movie_data(link)
         if movie_data:
@@ -61,20 +63,21 @@ def scrape_page(page_num):
                 "image_url": movie_data.get("image_url", ""),
                 "paragraphs_qna": movie_data.get("paragraphs_qna", []),
                 "movie_index": movie_index,
-            }
-            movie_index =+
-            )
+            })
+            movie_index +=1
+            
         else:
             logger.info(f"Skipping movie because it has no upcoming Q&A {link}")
 
-    return movies
+    return movies, movie_index
 
 
 def ifc_qna_scrape():
     all_movies = []
+    movie_index = 0
     for page in range(1, 11):  # go through pages 1–10
         try:
-            page_movies = scrape_page(page)
+            page_movies, movie_index = scrape_page(page, movie_index)
             if not page_movies:
                 break  # stop if no more results
             all_movies.extend(page_movies)

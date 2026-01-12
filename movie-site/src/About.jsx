@@ -4,12 +4,16 @@ import Feedback from './Feedback.jsx'
 
 export default function About() {
   return (
-    <div className='bg-black flex flex-col'>
+    // <div className='bg-black flex flex-col'>
+    
+    <div className="mx-auto w-full max-w-[1600px] px-6 md:px-12 lg:px-20 xl:px-28 py-12 
+                flex flex-col lg:flex-row flex-wrap items-center justify-between gap-12">
+
       <div className="flex-1">
-        <div className="px-5 py-4 flex justify-center items-center">
+        <div style={{ maxWidth: "1800px"}} className="mx-auto px-4 sm:px-8 md:px-16 lg:px-24 xl:px-32 py-12 flex flex-col lg:flex-row justify-center items-center gap-10 px-5 py-4 flex justify-center items-center">
           
           {/* Left: Text */}
-          <div className="text-white space-y-6">
+          <div className="text-white space-y-6 flex-1 min-w-[300px] max-w-[700px]">
             <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
               About <span className="text-[#ffc211]">Q&A Movies</span>
             </h1>
@@ -58,7 +62,7 @@ export default function About() {
                           text-black bg-[#ffc211] hover:bg-[#e3a4d3] hover:text-white 
                           transition-colors shadow-lg"
               >
-                ☕ Buy Me a Coffee
+                Buy Me a Coffee
               </a>
 
               <a
@@ -69,7 +73,7 @@ export default function About() {
                           text-black bg-[#ffc211] hover:bg-[#e3a4d3] hover:text-white 
                           transition-colors shadow-lg"
               >
-                💵 Venmo Me
+                Venmo
               </a>
             </div>
 
@@ -77,7 +81,7 @@ export default function About() {
           </div>
 
           {/* Right: Image + graphics */}
-          <div className="relative">
+          <div className="relative flex-1 min-w-[300px] max-w-[600px]">
               <div
               className="relative mx-auto"
               style={{

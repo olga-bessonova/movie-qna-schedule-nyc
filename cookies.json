@@ -1,159 +1,32 @@
 [
   {
     "domain": ".www.amctheatres.com",
-    "expiry": 1787695399,
+    "expiry": 1799796465,
     "httpOnly": false,
     "name": "__ar_v4",
     "path": "/",
     "sameSite": "Lax",
     "secure": false,
-    "value": "RUHEGRL6TVGN3OZ3D24MKD%3A20250814%3A24%7CCV77WC2OENGF5J3JPC3ZXW%3A20250814%3A24"
+    "value": "RUHEGRL6TVGN3OZ3D24MKD%3A20260111%3A4%7CCV77WC2OENGF5J3JPC3ZXW%3A20260111%3A4"
   },
   {
     "domain": ".amctheatres.com",
-    "httpOnly": false,
-    "name": "_sctr",
-    "path": "/",
-    "sameSite": "Lax",
-    "secure": true,
-    "value": "1%7C1756008000000"
-  },
-  {
-    "domain": ".amctheatres.com",
-    "expiry": 1790719399,
+    "expiry": 1802820465,
     "httpOnly": false,
     "name": "_ga_3FBVCHD93B",
     "path": "/",
     "sameSite": "Lax",
     "secure": false,
-    "value": "GS2.1.s1756159381$o4$g1$t1756159399$j42$l0$h0"
+    "value": "GS2.1.s1768260453$o5$g1$t1768260465$j48$l0$h0"
   },
   {
     "domain": ".amctheatres.com",
-    "expiry": 1756245798,
     "httpOnly": false,
     "name": "QueueITAccepted-SDFrts345E-V3_globalsafetynetprod",
     "path": "/",
     "sameSite": "Lax",
-    "secure": false,
+    "secure": true,
     "value": "EventId%3Dglobalsafetynetprod%26RedirectType%3Dsafetynet%26IssueTime%3D1756159398%26Hash%3D4d70538b3e9934a19e31b37b1d7f19fd74d74bee8cb1bf216c94df81abb059b5"
-  },
-  {
-    "domain": ".amctheatres.com",
-    "expiry": 1787695398,
-    "httpOnly": false,
-    "name": "osano_consentmanager_uuid",
-    "path": "/",
-    "sameSite": "Lax",
-    "secure": true,
-    "value": "36aea8d2-0451-4071-ad0e-edbf28e6f15c"
-  },
-  {
-    "domain": ".amctheatres.com",
-    "expiry": 1756161181,
-    "httpOnly": true,
-    "name": "__cf_bm",
-    "path": "/",
-    "sameSite": "None",
-    "secure": true,
-    "value": "3oogoEY6hn7Nfa0eYKy2dPX9UyEqxBS9uMhnAMEPjmE-1756159381-1.0.1.1-GNE3TjiqI872CcbaQZMdcIdrEm_Cnegkgf4.Bv_c9YOwrepFH23LbjpynweHhFNneTOY_J9LF_ZuEt30qJyVU18FM4aAk.4xEoIRc7n38RQ"
-  },
-  {
-    "domain": ".www.amctheatres.com",
-    "httpOnly": false,
-    "name": "seed",
-    "path": "/",
-    "sameSite": "Lax",
-    "secure": true,
-    "value": "69"
-  },
-  {
-    "domain": ".amctheatres.com",
-    "httpOnly": false,
-    "name": "session",
-    "path": "/",
-    "sameSite": "Lax",
-    "secure": true,
-    "value": "eyJpZCI6ImZhYTBmMjQyLWI0YmMtNDdjMC1iZWNiLWM3ZDBkOTA2N2RmZiIsIm5vd0luRGF5cyI6MjAzMTV9"
-  },
-  {
-    "domain": ".amctheatres.com",
-    "expiry": 1790346097,
-    "httpOnly": false,
-    "name": "_scid_r",
-    "path": "/",
-    "sameSite": "Lax",
-    "secure": false,
-    "value": "F84lNmqZ5SYPAstiDJACIVtT4bZaGKTrx4gfYw"
-  },
-  {
-    "domain": ".amctheatres.com",
-    "expiry": 1790719399,
-    "httpOnly": true,
-    "name": "FPID",
-    "path": "/",
-    "sameSite": "Lax",
-    "secure": true,
-    "value": "FPID2.2.8QRXx1X7ACL6%2FIeRkLLTqtjXqD1fnuolXH28vITLdgU%3D.1755226666"
-  },
-  {
-    "domain": ".amctheatres.com",
-    "expiry": 1790719399,
-    "httpOnly": false,
-    "name": "_ga_1111111",
-    "path": "/",
-    "sameSite": "Lax",
-    "secure": false,
-    "value": "GS2.1.s1756159381$o4$g1$t1756159399$j42$l0$h171890375"
-  },
-  {
-    "domain": ".amctheatres.com",
-    "expiry": 1787695398,
-    "httpOnly": false,
-    "name": "osano_consentmanager",
-    "path": "/",
-    "sameSite": "Lax",
-    "secure": true,
-    "value": "Wl4vE0KzPkxg6o0jFXo-OpHXGZbki_4mEK0AgDuOYlbUW63yRXo5Cucx4tRLJYyrvY2PRd4jm8_TVa8QMY4_m25XDd6KQlAWSoOHcoddw-AMIHbfjs2SGFlbfMxFMdPkSPHMgItTKKYpS1InXkGr6sMgK4PPpeQR0dvKjJlzYaGZ3AOsKOf9KdoiiypnzdMet842fpXk3LXI95UsxEpcKdXdxAldoG6_ZgINnwyyyZwfyOjOTkx0IAZ1Sl7rfijIxR8DyA92cK9NNfoYcMpkXhBorxt6JvyxAzp5-itDqBe4ptmlBVk6JG26uGP0yF9pTH8FWImoWcw="
-  },
-  {
-    "domain": ".amctheatres.com",
-    "expiry": 1790719399,
-    "httpOnly": false,
-    "name": "_ga",
-    "path": "/",
-    "sameSite": "Lax",
-    "secure": false,
-    "value": "GA1.1.936086909.1755226666"
-  },
-  {
-    "domain": ".amctheatres.com",
-    "expiry": 1763935399,
-    "httpOnly": false,
-    "name": "_fbp",
-    "path": "/",
-    "sameSite": "Lax",
-    "secure": true,
-    "value": "fb.1.1755226665965.805734835416731360"
-  },
-  {
-    "domain": ".amctheatres.com",
-    "expiry": 1787695375,
-    "httpOnly": true,
-    "name": "cf_clearance",
-    "path": "/",
-    "sameSite": "None",
-    "secure": true,
-    "value": "Rr9CC4TM5Z9sX1V6KhduIFgBfP5lkbU8ZXxAmCKP1sA-1756159376-1.2.1.1-_QhNW48xMfvoF.bhY_UNnc1fnpj0B83GOMQSfXVCjcvKnO2AyorOk95a.RPvGZyZVFYtXfkT9C7NR4DyaG..G5DwjDYdKtDaIGKI2cOKc4FqxAlAzGxWdK04EmzCw0r4bxVdUvWvRyJoWJwDRZTly417DYL_3gG6Nh30omfTv7aDNYyPtfjaQk2a2bU_fG4pJGaWsygSj2.6TzdqIJOeIGNEvYlC1PaEeGHb8uA5isw"
-  },
-  {
-    "domain": ".amctheatres.com",
-    "httpOnly": true,
-    "name": "cf_clearance",
-    "path": "/",
-    "sameSite": "Lax",
-    "secure": true,
-    "value": "wZRFgy3lAI5tFBGfP4CbHAwefJUNg7fOjLXY2kvtIoM-1755228758-1.2.1.1-oMTLkhBXWebgcHY8IFd3juS5zW34B3dpfh7rGAXdxgOuNc1jwr7H2ABn5dsnR_6ZuQg0eMk8NmpTX2COwKE0Zt0p1y2YhZyDNlY44hRX6CQh6.Oy1hcJdzvfdul54F.bQTe2nMqNDjeTKYXN_oPbiIR_RofoQSTN9DyVbqccLiSH3rq35rPBsDV.7_Q8SJxvrUHebmSyyRxYAQJqcA.XwrUgqlBwMFSOYjySdC.dEpg"
   },
   {
     "domain": ".amctheatres.com",
@@ -166,13 +39,52 @@
   },
   {
     "domain": ".amctheatres.com",
-    "expiry": 1789855399,
+    "expiry": 1802474854,
     "httpOnly": false,
-    "name": "_ttp",
+    "name": "_sctr",
     "path": "/",
     "sameSite": "Lax",
     "secure": false,
-    "value": "01K2NTJWNF20KEEA03NX9W9VBC_.tt.1"
+    "value": "1%7C1768194000000"
+  },
+  {
+    "domain": ".amctheatres.com",
+    "expiry": 1776036454,
+    "httpOnly": false,
+    "name": "_gcl_au",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "1.1.448372838.1768260454"
+  },
+  {
+    "domain": ".amctheatres.com",
+    "expiry": 1799796465,
+    "httpOnly": false,
+    "name": "osano_consentmanager_uuid",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "2859c389-3261-4f12-accd-ec6bbbd49e71"
+  },
+  {
+    "domain": ".amctheatres.com",
+    "expiry": 1768262253,
+    "httpOnly": true,
+    "name": "__cf_bm",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "F4EfTJjl_EPeJPhplAsbycCzA3.J886R1rexvfb5Ju8-1768260453-1.0.1.1-Ro4EqeRpRMg0U0s5RM_jXc3zk.OMKveLN_ino1gM1n8O_EufttUFtsGPEiQ6hoiGRqJyI4Ct355jXJkBBIknnZ4z_N9i9pJhzde4F2BHTT4"
+  },
+  {
+    "domain": ".www.amctheatres.com",
+    "httpOnly": false,
+    "name": "seed",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "50"
   },
   {
     "domain": ".amctheatres.com",
@@ -185,13 +97,111 @@
   },
   {
     "domain": ".amctheatres.com",
-    "expiry": 1789855399,
+    "expiry": 1801956465,
     "httpOnly": false,
-    "name": "_tt_enable_cookie",
+    "name": "_ttp",
     "path": "/",
     "sameSite": "Lax",
     "secure": false,
-    "value": "1"
+    "value": "01K2NTJWNF20KEEA03NX9W9VBC_.tt.1"
+  },
+  {
+    "domain": ".amctheatres.com",
+    "expiry": 1799796448,
+    "httpOnly": true,
+    "name": "cf_clearance",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "6NRt5TwrDO4cGGDtwBFOaa.Fm6x2wDjCg.5BGI85zmE-1768260448-1.2.1.1-pEwSl3PHexdCAspcCHwS4z3WsQCVkUkclUjSbQt0U0xVHCM139fo157b2dq2WV5F9CgHMhuSgjc2SZaJlpK7PaaBYzbbo6vUx3UmQbVvlDXwiGZ9b8H2R1czyleT4CimxHkN8D_LntRPmoJLZTmsAPKXuSB_08fkQ7ieEJZET_XkK3sjdOw2Bzt5Gpgp2ltmbEe6owYMwyjIWB2iqsedF5UDXlZfSXR2wr3a9wQmIto"
+  },
+  {
+    "domain": ".amctheatres.com",
+    "httpOnly": true,
+    "name": "cf_clearance",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "wZRFgy3lAI5tFBGfP4CbHAwefJUNg7fOjLXY2kvtIoM-1755228758-1.2.1.1-oMTLkhBXWebgcHY8IFd3juS5zW34B3dpfh7rGAXdxgOuNc1jwr7H2ABn5dsnR_6ZuQg0eMk8NmpTX2COwKE0Zt0p1y2YhZyDNlY44hRX6CQh6.Oy1hcJdzvfdul54F.bQTe2nMqNDjeTKYXN_oPbiIR_RofoQSTN9DyVbqccLiSH3rq35rPBsDV.7_Q8SJxvrUHebmSyyRxYAQJqcA.XwrUgqlBwMFSOYjySdC.dEpg"
+  },
+  {
+    "domain": ".amctheatres.com",
+    "expiry": 1776036465,
+    "httpOnly": false,
+    "name": "_fbp",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "fb.1.1755226665965.805734835416731360"
+  },
+  {
+    "domain": ".amctheatres.com",
+    "expiry": 1802820465,
+    "httpOnly": false,
+    "name": "_ga",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "GA1.1.936086909.1755226666"
+  },
+  {
+    "domain": ".amctheatres.com",
+    "expiry": 1802474865,
+    "httpOnly": false,
+    "name": "_scid_r",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "c89o_Cunh9dVXbdZl_2rBmRUJH_sbg2FUuW4SA"
+  },
+  {
+    "domain": ".amctheatres.com",
+    "expiry": 1802820465,
+    "httpOnly": true,
+    "name": "FPID",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "FPID2.2.8QRXx1X7ACL6%2FIeRkLLTqtjXqD1fnuolXH28vITLdgU%3D.1755226666"
+  },
+  {
+    "domain": ".amctheatres.com",
+    "expiry": 1802820465,
+    "httpOnly": false,
+    "name": "_ga_1111111",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "GS2.1.s1768260453$o5$g1$t1768260465$j48$l0$h1909148717"
+  },
+  {
+    "domain": ".amctheatres.com",
+    "expiry": 1799796465,
+    "httpOnly": false,
+    "name": "osano_consentmanager",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "OxaOp8ulhxgcJrquKJdDBflmX556fU3Yu02qzoFP73d36-eb_XjkLcYyxaM-tIcyG0mmll0DkW-t3gKhbwpt_pmO0B93588qJwNxguLyfGKtJzUG9Sy3VDq8A3DkU7rIf_nB-YfniMgWAZ5a3fY4di4McSb1LnLJoLH_OoQDOBe-iexrTK3IlqjdvpxvPMSfKpigtjwpUFaPMYMY7xCsynSzcJrmiMsxofYlk0HSTyCqhUpJp7L4X-styKsCZB63FYN2DjtIDEZTkdl3dcIRQtNpWw3zJBPQhIKLxUjImO0gne2Xvjzyg1MCs_FACdn9FL3AJoSz9UQ="
+  },
+  {
+    "domain": ".amctheatres.com",
+    "httpOnly": false,
+    "name": "session",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "eyJpZCI6ImZhYTBmMjQyLWI0YmMtNDdjMC1iZWNiLWM3ZDBkOTA2N2RmZiIsIm5vd0luRGF5cyI6MjAzMTV9"
+  },
+  {
+    "domain": ".amctheatres.com",
+    "expiry": 1799818065,
+    "httpOnly": false,
+    "name": "__adroll_fpc",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "42c6a6de027a4b61055b0c6ffc759afe-1755226666028"
   },
   {
     "domain": ".amctheatres.com",
@@ -204,23 +214,13 @@
   },
   {
     "domain": ".amctheatres.com",
-    "expiry": 1763002665,
+    "expiry": 1801956465,
     "httpOnly": false,
-    "name": "_gcl_au",
+    "name": "_tt_enable_cookie",
     "path": "/",
     "sameSite": "Lax",
     "secure": false,
-    "value": "1.1.732152310.1755226665"
-  },
-  {
-    "domain": ".amctheatres.com",
-    "expiry": 1787716999,
-    "httpOnly": false,
-    "name": "__adroll_fpc",
-    "path": "/",
-    "sameSite": "Lax",
-    "secure": false,
-    "value": "42c6a6de027a4b61055b0c6ffc759afe-1755226666028"
+    "value": "1"
   },
   {
     "domain": "www.amctheatres.com",
@@ -229,6 +229,6 @@
     "path": "/",
     "sameSite": "Lax",
     "secure": false,
-    "value": "50"
+    "value": "38"
   }
 ]

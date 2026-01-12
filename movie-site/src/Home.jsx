@@ -105,7 +105,7 @@ export default function Home() {
 
       <div className="bg-black text-white p-8 relative">
         <h1 className="text-3xl font-bold text-center mb-10">
-          🎬 AMC
+          AMC
         </h1>
 
         <div className="bg-black text-white p-8 relative" id="amc-section">
@@ -116,7 +116,7 @@ export default function Home() {
 
       <div className="bg-black text-white p-8 relative">
         <h1 className="text-3xl font-bold text-center mb-10">
-          🎬 IFC Center
+          IFC Center
         </h1>
 
         <div className="bg-black text-white p-8 relative" id="ifc-section">
@@ -126,7 +126,7 @@ export default function Home() {
 
       <div className="bg-black text-white p-8 relative">
         <h1 className="text-3xl font-bold text-center mb-10">
-          🎬 Angelika NYC
+          Angelika NYC
         </h1>
 
         <div className="bg-black text-white p-8 relative" id="angelika-section">
